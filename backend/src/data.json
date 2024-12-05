@@ -1,0 +1,26 @@
+{
+  "trips": {
+    "trip123": {
+      "name": "My Adventure",
+      "securityCode": "secure123",
+      "users": ["John", "Jane", "Doe"],
+      "votes": {
+        "2024-12-03": {
+          "summary": { "John": 3, "Jane": 1, "Doe": 2 },
+          "details": [
+            { "voter": "John", "votedFor": "Doe", "time": "08:30:00" },
+            { "voter": "Jane", "votedFor": "John", "time": "10:15:00" },
+            { "voter": "Doe", "votedFor": "Jane", "time": "14:45:00" }
+          ]
+        },
+        "2024-12-04": {
+          "summary": { "John": 0, "Jane": 2, "Doe": 4 },
+          "details": [
+            { "voter": "John", "votedFor": "Jane", "time": "09:00:00" },
+            { "voter": "Jane", "votedFor": "Doe", "time": "11:30:00" }
+          ]
+        }
+      }
+    }
+  }
+}
