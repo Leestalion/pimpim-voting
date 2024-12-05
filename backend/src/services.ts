@@ -3,7 +3,12 @@ import { Data, Trip } from "./types";
 import fs from "fs";
 
 // Path to JSON file
-const DATA_PATH = path.join(__dirname, "data.json");  // This will now be in the /data folder mounted from the volume
+const DATA_PATH = path.join('/data', 'data.json');
+
+// Check if the file exists and create one if it doesn't
+if (!fs.existsSync(DATA_PATH)) {
+    fs.writeFileSync(DATA_PATH, JSON.stringify({})); // Create an empty JSON file
+}
 
 // Helper function to read/write data to JSON file
 const readData = () => JSON.parse(fs.readFileSync(DATA_PATH, "utf-8"));

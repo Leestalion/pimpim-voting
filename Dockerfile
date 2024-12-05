@@ -1,42 +1,32 @@
-# Base image for Node.js
-FROM node:18 AS base
-
-# Set environment variables for both backend and frontend
-ENV NODE_ENV=production
-
-# Backend
-WORKDIR /app/backend
-COPY backend/package*.json ./
-RUN npm install
-COPY backend/ ./
-RUN npm run build
-
-# Frontend
+# Base image for building frontend
+FROM node:20-slim AS frontend-build
 WORKDIR /app/frontend
-COPY frontend/package*.json ./
+COPY ./frontend/package.json ./frontend/package-lock.json ./
 RUN npm install
-COPY frontend/ ./
+COPY ./frontend ./
 RUN npm run build
 
-# Production image
-FROM node:18-slim
+# Base image for building backend
+FROM node:20-slim AS backend-build
+WORKDIR /app/backend
+COPY ./backend/package.json ./backend/package-lock.json ./
+RUN npm install
+COPY ./backend ./
+RUN npm run build
+
+# Final image
+FROM node:20-slim
 WORKDIR /app
 
-# Install bash and other dependencies
-RUN apt-get update && apt-get install -y bash
+# Install serve globally
+RUN npm install -g serve
 
-# Copy backend built files
-COPY --from=base /app/backend/dist /app/backend/dist
-COPY --from=base /app/backend/package*.json /app/backend/ 
-
-# Copy frontend built files
-COPY --from=base /app/frontend/dist /app/frontend/dist
+# Copy backend and frontend dist folders
+COPY --from=frontend-build /app/frontend/dist /app/frontend/dist
+COPY --from=backend-build /app/backend/dist /app/backend/dist
 
 # Expose ports
 EXPOSE 3000 5000
 
-# Install 'serve' globally to serve the frontend
-RUN npm install -g serve
-
-# Start both apps
-CMD /bin/sh -c "node backend/dist/server.js & exec serve -s frontend -l 3000"
+# Command to run backend and frontend
+CMD /bin/sh -c "node backend/dist/server.js & exec serve -s frontend/dist -l 3000"
