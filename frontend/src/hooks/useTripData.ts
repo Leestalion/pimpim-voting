@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { TripContext, TripContextType } from "../contexts"
+import { TripContext, TripContextType } from "src/contexts"
 
 
 // Custom hook to use the TripContext

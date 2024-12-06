@@ -2,6 +2,7 @@ import express, { Application, Response, Request } from 'express';
 import cors from 'cors';
 import { createTrip, createUserInTrip, getAllTrips, getAllUsersInTrip, getTripResults, voteForTrip } from './services';
 import { Trip } from './types';
+import { tripNameExists } from './utils';
 
 const app: Application = express();
 const PORT = 5000;
@@ -21,8 +22,13 @@ app.get('/trips', (req: Request, res: Response) => {
 app.post('/trips', (req: Request, res: Response) => {
     const newTrip: Trip = req.body;
 
-    if(!newTrip.id || !newTrip.name || !newTrip.securityCode) {
-        res.status(400).send("Trip ID, name and security code required");
+    if(!newTrip.name || !newTrip.securityCode) {
+        res.status(400).send("Trip name and security code required");
+        return;
+    }
+
+    if (tripNameExists(newTrip.name)) {
+        res.status(400).send("Trip name already exists");
         return;
     }
 
@@ -33,6 +39,7 @@ app.post('/trips', (req: Request, res: Response) => {
         res.status(500).send("Error creating trip");
     }
 });
+
 
 // Endpoint to vote for a trip
 app.post('/trips/:id/vote', (req: Request, res: Response) => {
@@ -96,6 +103,6 @@ app.get('/trip/:id/results', (req: Request, res: Response) => {
     }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Backend running on http://localhost:${PORT}`);
 });

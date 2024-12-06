@@ -1,0 +1,79 @@
+/* Home.module.css */
+.homePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #121212;
+  border-radius: 8px;
+}
+
+.tripList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.tripLink {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit text color from parent */
+}
+
+.tripCard {
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 30px; /* Increased padding */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  height: 250px; /* Fixed height for consistency */
+}
+
+.tripCard:hover {
+  background-color: #333333;
+  transform: translateY(-4px);
+}
+
+.tripCard h3 {
+  font-size: 1.5rem; /* Bigger title */
+  text-align: center;
+  margin: 0;
+  color: #f5f5f5;
+  font-weight: bold;
+}
+
+.addTripButton {
+  position: fixed;
+  padding: 18px 36px !important;
+  bottom: 20px;
+  transition: all 0.3s ease;
+  width: 20rem;
+  font-size: 18px !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.addTripButton:hover {
+  transform: translateY(-6px);
+}
+
+.addTripButton:focus {
+  outline: none;
+}
+
+@media (max-width: 600px) {
+  .tripCard {
+    padding: 20px; /* Slightly smaller padding on mobile */
+    height: 200px; /* Adjust height for mobile screens */
+  }
+
+  .addTripButton {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+}

@@ -1,13 +1,19 @@
 import path from "path";
 import { Data, Trip } from "./types";
 import fs from "fs";
+import { v4 as uuidv4 } from 'uuid';
 
-// Path to JSON file
-const DATA_PATH = path.join('/data', 'data.json');
+import 'dotenv/config';
+
+// Default to './data' locally, use '/data' on Fly.io
+const DATA_DIR = process.env.DATA_DIR || './data';
+const DATA_PATH = path.join(DATA_DIR, 'data.json');
+
+console.log(`Using data file at: ${DATA_PATH}`);
 
 // Check if the file exists and create one if it doesn't
 if (!fs.existsSync(DATA_PATH)) {
-    fs.writeFileSync(DATA_PATH, JSON.stringify({})); // Create an empty JSON file
+    fs.writeFileSync(DATA_PATH, JSON.stringify({}, null, 2), "utf-8"); // Create an empty JSON file
 }
 
 // Helper function to read/write data to JSON file
@@ -20,6 +26,8 @@ export function getAllTrips(): Record<string, Trip> {
 }
 
 export function createTrip(trip: Trip): void {
+    const tripId = uuidv4();
+    trip.id = tripId;
     const data = readData();
     data.trips = { ...(data.trips || {}), [trip.id]: trip };
     writeData(data);

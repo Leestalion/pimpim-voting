@@ -1,10 +1,5 @@
-# fly.toml app configuration file generated for pimpim-voting on 2024-12-05T20:01:54+01:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
-
-app = 'pimpim-voting'
-primary_region = 'cdg'
+app = "pimpim-voting"
+primary_region = "cdg"
 
 [mounts]
 source = "pimpim_volume"
@@ -12,13 +7,37 @@ destination = "/data"
 
 [build]
 
-[http_service]
-  internal_port = 3000
-  force_https = true
-  auto_stop_machines = 'stop'
-  auto_start_machines = true
-  min_machines_running = 0
-  processes = ['app']
+# Frontend HTTP service (public, on default ports)
+[[services]]
+internal_port = 3000  # Frontend app port
+processes = ["app"]
+force_https = true  # Redirect all HTTP to HTTPS
+auto_stop_machines = "stop"
+auto_start_machines = true
+min_machines_running = 0
+
+[[services.ports]]
+  handlers = ["http"]
+  port = 80  # Public HTTP for frontend
+[[services.ports]]
+  handlers = ["tls"]
+  port = 443  # Enable HTTPS for frontend
+
+# Backend service (public, on port 5000)
+[[services]]
+internal_port = 5000  # Backend app port
+processes = ["app"]
+force_https = true  # Ensure backend uses HTTPS
+
+[[services.ports]]
+  handlers = ["http"]
+  port = 5000  # Public HTTP for backend
+[[services.ports]]
+  handlers = ["tls"]
+  port = 5443  # Public HTTPS for backend (optional for security)
 
 [[vm]]
-  size = 'shared-cpu-1x'
+  size = "shared-cpu-1x"
+
+[env]
+DATA_DIR = "/data"

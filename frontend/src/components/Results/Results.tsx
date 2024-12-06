@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { axiosInstance } from "../services";
+import { axiosInstance } from "../../services";
 
-export const ResultsPage = () => {
+export const Results = () => {
   const [dayWinner, setDayWinner] = useState<string | null>(null);
   const [globalResults, setGlobalResults] = useState<Map<string, number>>(
     new Map()

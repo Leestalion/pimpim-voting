@@ -1,12 +1,13 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { App } from "../App";
+import { App } from "src/App";
 import {
   TripCreation,
-  VotingPage,
-  ResultsPage,
+  Results,
   UserManagement,
-  Countdown,
-} from "../components";
+  Home,
+  Vote,
+  Trip
+} from "src/components";
 
 // Put in the routes in the router
 const routes = [
@@ -15,24 +16,34 @@ const routes = [
     element: <App />,
     children: [
       {
+        path: "/",
+        element: <Home />,
+      },
+      {
         path: "/trip-creation",
         element: <TripCreation />,
       },
       {
-        path: "/vote/:tripId",
-        element: <VotingPage tripId="trip123" />,
-      },
-      {
-        path: "/results",
-        element: <ResultsPage />,
-      },
-      {
-        path: "/users",
-        element: <UserManagement />,
-      },
-      {
-        path: "/countdown",
-        element: <Countdown />,
+        path: "/trip/:tripId",
+        element: <Trip />,
+        children: [
+          {
+            path: "results",
+            element: <Results />,
+          },
+          {
+            path: "users",
+            element: <UserManagement />,
+          },
+          {
+            path: "vote",
+            element: <Vote />,
+          },
+          {
+            index: true,
+            element: <Results />,
+          }
+        ]
       },
     ],
   },

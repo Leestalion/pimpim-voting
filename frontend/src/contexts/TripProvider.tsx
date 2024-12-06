@@ -1,34 +1,28 @@
-import { ReactNode, useState } from "react";
-import { TripData, Trips, VoteData } from "../types";
+import { ReactNode, useCallback, useState } from "react";
+import { Trips, VoteData } from "../types";
 import { TripContext } from "./TripContext";
+import { axiosInstance } from "../services";
 
 export const TripProvider: React.FC<{ children: ReactNode}> = ({ children }) => {
     const [trips, setTrips] = useState<Trips | null>(null);
     
-    const API_URL = "http://localhost:5000/";
-
     // Fetch trips data from the backend
-    const fetchTrips = async () => {
+    const fetchTrips = useCallback(async () => {
         try {
-            const response = await fetch(`${API_URL}/trips`);
-            const data: Trips = await response.json(); // Use the Trips type here
+            const response = await axiosInstance.get("/trips");
+            const data: Trips = response.data; // Use the Trips type here
             setTrips(data);
+            
         } catch (err) {
             console.error("Error fetching trips:", err);
         }
-    };
+    }, []);
 
     // create a new trip
-    const createTrip = async (tripData: TripData) => {
+    const createTrip = async (tripData: {name: string, securityCode: string}) => {
         try {
-            const response = await fetch(`${API_URL}/trip`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(tripData),
-            });
-            if (response.ok) {
+            const response = await axiosInstance.post("/trips", tripData);
+            if (response.status === 201) {
                 fetchTrips();
             } else {
                 console.error("Error creating trip:", response.statusText);
@@ -41,14 +35,8 @@ export const TripProvider: React.FC<{ children: ReactNode}> = ({ children }) => 
     // submit a vote
     const submitVote = async (voteData: VoteData) => {
         try {
-            const response = await fetch(`${API_URL}/trip/${voteData.tripId}/vote`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(voteData),
-            });
-            if (response.ok) {
+            const response = await axiosInstance.post(`/trip/${voteData.tripId}/vote`, voteData);
+            if (response.status === 200) {
                 fetchResults(voteData.tripId);
             } else {
                 console.error("Error submitting vote:", response.statusText);
@@ -61,8 +49,8 @@ export const TripProvider: React.FC<{ children: ReactNode}> = ({ children }) => 
     // fetch results for a specific trip
     const fetchResults = async (tripId: string) => {
         try {
-            const response = await fetch(`${API_URL}/trip/${tripId}/results`);
-            const data = await response.json();
+            const response = await axiosInstance.get(`/trip/${tripId}/results`);
+            const data = response.data;
             setTrips((prevTrips: Trips | null) => {
                 if (!prevTrips) {
                     return prevTrips;
@@ -74,7 +62,6 @@ export const TripProvider: React.FC<{ children: ReactNode}> = ({ children }) => 
                         results: data,
                     },
                 };
-                
             });
         } catch (err) {
             console.error("Error fetching results:", err);
@@ -82,7 +69,7 @@ export const TripProvider: React.FC<{ children: ReactNode}> = ({ children }) => 
     };
 
     return (
-        <TripContext.Provider value={{ trips, createTrip, submitVote, fetchResults }}>
+        <TripContext.Provider value={{ trips, fetchTrips, createTrip, submitVote, fetchResults }}>
             {children}
         </TripContext.Provider>
     );

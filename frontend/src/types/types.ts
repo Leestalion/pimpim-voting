@@ -15,10 +15,3 @@ export interface VoteData {
     date: string;
     vote: number;
 }
-
-export interface TripData {
-    tripId: string;
-    name: string;
-    securityCode: string;
-    users: string[];
-}

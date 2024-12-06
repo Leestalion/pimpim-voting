@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-    baseURL: "http://localhost:5000",
+    baseURL: `${window.location.origin.replace(/:\d+$/, ":5000")}`,
     headers: { "Content-Type": "application/json" },
 });
