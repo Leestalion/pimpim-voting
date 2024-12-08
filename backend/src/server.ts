@@ -1,6 +1,6 @@
 import express, { Application, Response, Request } from 'express';
 import cors from 'cors';
-import { createTrip, createUserInTrip, getAllTrips, getAllUsersInTrip, getTripResults, voteForTrip } from './services';
+import { createTrip, createUserInTrip, getAllTrips, getAllUsersInTrip, getTripById, getTripResults, voteForTrip } from './services';
 import { Trip } from './types';
 import { tripNameExists } from './utils';
 
@@ -12,14 +12,15 @@ app.use(cors());
 app.use(express.json());
 
 // API Routes
+const apiRouter = express.Router();
 
 // Endpoint to get all trips
-app.get('/trips', (req: Request, res: Response) => {
+apiRouter.get('/trips', (req: Request, res: Response) => {
     res.json(getAllTrips());
   });
   
 // Endpoint to create a new trip
-app.post('/trips', (req: Request, res: Response) => {
+apiRouter.post('/trips', (req: Request, res: Response) => {
     const newTrip: Trip = req.body;
 
     if(!newTrip.name || !newTrip.securityCode) {
@@ -40,9 +41,21 @@ app.post('/trips', (req: Request, res: Response) => {
     }
 });
 
+// Enpoint to get a specific trip
+apiRouter.get('/trip/:id', (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    try {
+        const trip = getTripById(id)
+        res.status(200).json(trip);
+    } catch (error) {
+        res.status(500).send("Error fetching trip");
+    }
+});
+
 
 // Endpoint to vote for a trip
-app.post('/trips/:id/vote', (req: Request, res: Response) => {
+apiRouter.post('/trips/:id/vote', (req: Request, res: Response) => {
     const { id } = req.params;
     const { username } = req.body;
     
@@ -62,7 +75,7 @@ app.post('/trips/:id/vote', (req: Request, res: Response) => {
 });
 
 // create a user in a trip
-app.post('/trips/:id/user', (req: Request, res: Response) => {
+apiRouter.post('/trips/:id/user', (req: Request, res: Response) => {
     const { username, securityCode } = req.body; // Expect { username }
     const { id } = req.params;
 
@@ -80,7 +93,7 @@ app.post('/trips/:id/user', (req: Request, res: Response) => {
 });
 
 // Endpoint to get all users in a trip
-app.get('/trip/:id/users', (req: Request , res: Response) => {
+apiRouter.get('/trip/:id/users', (req: Request , res: Response) => {
     const { id } = req.params;
 
     try {
@@ -92,7 +105,7 @@ app.get('/trip/:id/users', (req: Request , res: Response) => {
 });
 
 // Enpoint to get the results of a specific trip
-app.get('/trip/:id/results', (req: Request, res: Response) => {
+apiRouter.get('/trip/:id/results', (req: Request, res: Response) => {
     const { id } = req.params;
 
     try {
@@ -103,6 +116,8 @@ app.get('/trip/:id/results', (req: Request, res: Response) => {
     }
 });
 
-app.listen(PORT, '0.0.0.0', () => {
+app.use('/api', apiRouter);
+
+app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`);
 });

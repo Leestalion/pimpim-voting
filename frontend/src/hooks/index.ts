@@ -1,1 +1,2 @@
-export * from './useTripData';
+export * from './useTrips';
+export * from './useTrip';

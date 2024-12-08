@@ -3,6 +3,7 @@ body {
   padding: 0;
   font-family: "roboto", sans-serif;
   background-color: rgba(0, 0, 0, 0.6);
+  color: white;
 }
 
 .app {
@@ -15,7 +16,6 @@ body {
   justify-content: space-between;
   align-items: center;
   background-color: #333;
-  color: white;
   padding: 16px;
   position: relative; /* Ensure it stays in place on mobile */
 }
@@ -61,8 +61,9 @@ input:focus {
 
 /* Button styling */
 button {
-  background-color: #444; /* Dark background for the button */
+  text-transform: uppercase;
   color: white;
+  background-color: #444; /* Dark background for the button */
   border: none;
   padding: 12px;
   border-radius: 5px;
@@ -102,4 +103,9 @@ button:focus {
     padding: 20px;
     flex-grow: 1; /* Allow content to grow */
   }
+}
+
+a {
+  color: white; /* Blue links */
+  text-decoration: none; /* Remove underline */
 }

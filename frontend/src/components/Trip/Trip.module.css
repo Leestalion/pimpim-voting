@@ -1,11 +1,17 @@
 .hamburger {
+  color: white;
   font-size: 30px;
   background: none;
   border: none;
-  color: white;
   cursor: pointer;
   display: none; /* Hide by default, show on mobile */
   width: auto;
+}
+
+.hamburger:focus {
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .tripPage {
@@ -19,7 +25,6 @@
   justify-content: center;
   align-items: center;
   background-color: #333;
-  color: white;
   padding: 16px;
   border-radius: 8px;
 }
@@ -45,6 +50,12 @@
   display: block;
 }
 
+.icon {
+  margin-right: 8px;
+  font-size: 18px;
+  vertical-align: middle;
+}
+
 .sidebar ul {
   list-style-type: none;
   padding: 0;
@@ -52,13 +63,16 @@
 
 .sidebar li {
   margin: 10px 0;
+  display: flex;
+  align-items: center;
 }
 
 .sidebar a {
-  color: white;
   text-decoration: none;
-  padding: 10px;
-  display: block;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding: 0.7rem 0.7rem 0.7rem 1.5rem;
 }
 
 .sidebar a:hover {
@@ -75,7 +89,7 @@
 
 .mobileMenu ul {
   list-style-type: none;
-  padding: 20px;
+  padding: 0;
   margin: 0;
   background-color: #2c2c2c;
   position: fixed;
@@ -86,15 +100,12 @@
   z-index: 100;
 }
 
-.mobileMenu li {
-  margin: 15px 0;
-}
-
 .mobileMenu a {
-  color: white;
   text-decoration: none;
-  padding: 10px;
-  display: block;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .mobileMenu a:hover {

@@ -3,18 +3,30 @@ import { Data, Trip } from "./types";
 import fs from "fs";
 import { v4 as uuidv4 } from 'uuid';
 
-import 'dotenv/config';
+import dotenv from 'dotenv';
+
+dotenv.config({
+    path: `.env.${process.env.NODE_ENV || 'development'}`  // Fallback to development if NODE_ENV isn't set
+});
 
 // Default to './data' locally, use '/data' on Fly.io
-const DATA_DIR = process.env.DATA_DIR || './data';
+const DATA_DIR = process.env.DATA_DIR || '';
 const DATA_PATH = path.join(DATA_DIR, 'data.json');
 
-console.log(`Using data file at: ${DATA_PATH}`);
+// Check if the directory exists
+if (!fs.existsSync(DATA_DIR)) {
+    // If the directory does not exist, create it
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+    console.log(`Directory ${DATA_DIR} was created.`);
+  }
 
 // Check if the file exists and create one if it doesn't
 if (!fs.existsSync(DATA_PATH)) {
     fs.writeFileSync(DATA_PATH, JSON.stringify({}, null, 2), "utf-8"); // Create an empty JSON file
+    console.log(`File ${DATA_PATH} was created.`);
 }
+
+console.log(`Using data file at: ${DATA_PATH}`);
 
 // Helper function to read/write data to JSON file
 const readData = () => JSON.parse(fs.readFileSync(DATA_PATH, "utf-8"));
@@ -25,9 +37,21 @@ export function getAllTrips(): Record<string, Trip> {
     return data.trips;
 }
 
+export function getTripById(tripId: string): Trip {
+    const data = readData();
+    const trip = data.trips[tripId];
+    if (!trip) {
+        console.error("Trip not found");
+        throw new Error("Trip not found");
+    }
+    return trip;
+}
+
 export function createTrip(trip: Trip): void {
     const tripId = uuidv4();
     trip.id = tripId;
+    trip.users = [];
+    trip.votes = {};
     const data = readData();
     data.trips = { ...(data.trips || {}), [trip.id]: trip };
     writeData(data);

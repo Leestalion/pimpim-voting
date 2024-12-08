@@ -1,76 +1,79 @@
-import { ReactNode, useCallback, useState } from "react";
-import { Trips, VoteData } from "../types";
+import { PropsWithChildren, useEffect, useState } from "react";
+import { useParams } from "react-router-dom"
 import { TripContext } from "./TripContext";
-import { axiosInstance } from "../services";
+import { Trip } from "src/types";
+import { createUserInTrip, fetchTripById, removeUserFromTrip } from "src/services";
 
-export const TripProvider: React.FC<{ children: ReactNode}> = ({ children }) => {
-    const [trips, setTrips] = useState<Trips | null>(null);
+export const TripProvider = ({ children }: PropsWithChildren) => {
     
-    // Fetch trips data from the backend
-    const fetchTrips = useCallback(async () => {
-        try {
-            const response = await axiosInstance.get("/trips");
-            const data: Trips = response.data; // Use the Trips type here
-            setTrips(data);
-            
-        } catch (err) {
-            console.error("Error fetching trips:", err);
-        }
-    }, []);
+    const emptyTrip: Trip = { name: '', users: [], securityCode: '', votes: {} };
 
-    // create a new trip
-    const createTrip = async (tripData: {name: string, securityCode: string}) => {
-        try {
-            const response = await axiosInstance.post("/trips", tripData);
-            if (response.status === 201) {
-                fetchTrips();
-            } else {
-                console.error("Error creating trip:", response.statusText);
+    const { tripId } = useParams<{ tripId: string}>();
+
+    if(!tripId) {
+        throw new Error("Trip ID not provided");
+    }
+
+    const [trip, setTrip] = useState<Trip>(emptyTrip);
+    const [ loading, setLoading ] = useState<boolean>(true);
+    const [ error, setError ] = useState<string | null>(null);
+
+    useEffect(() => {
+        const loadTrip = async () => {
+            setLoading(true);
+            setError(null);
+
+            if (!tripId) {
+                setError("Trip ID not provided");
+                setLoading(false);
+                return;
             }
-        } catch (err) {
-            console.error("Error creating trip:", err);
-        }
-    };
 
-    // submit a vote
-    const submitVote = async (voteData: VoteData) => {
-        try {
-            const response = await axiosInstance.post(`/trip/${voteData.tripId}/vote`, voteData);
-            if (response.status === 200) {
-                fetchResults(voteData.tripId);
+            const fetchedTrip = await fetchTripById(tripId);
+
+            if (fetchedTrip) {
+                setTrip(fetchedTrip);
             } else {
-                console.error("Error submitting vote:", response.statusText);
+                setError("Trip not found or could not be fetched.");
             }
-        } catch (err) {
-            console.error("Error submitting vote:", err);
-        }
-    };
 
-    // fetch results for a specific trip
-    const fetchResults = async (tripId: string) => {
+            setLoading(false);
+        };
+
+        loadTrip();
+    }, [tripId]);
+
+    const addUser = (username: string, securityCode: string) => {
+        if (!trip) throw new Error("Trip not loaded");
+        if (trip.securityCode !== securityCode) throw new Error("Invalid security code");
         try {
-            const response = await axiosInstance.get(`/trip/${tripId}/results`);
-            const data = response.data;
-            setTrips((prevTrips: Trips | null) => {
-                if (!prevTrips) {
-                    return prevTrips;
-                }
-                return {
-                    ...prevTrips,
-                    [tripId]: {
-                        ...prevTrips[tripId],
-                        results: data,
-                    },
-                };
-            });
-        } catch (err) {
-            console.error("Error fetching results:", err);
+            createUserInTrip(tripId, username, securityCode);
+            const updatedTrip = { ...trip, users: [...trip.users, username] };
+            setTrip(updatedTrip);
+        } catch (error) {
+            console.error("Error adding user to trip:", error);
         }
-    };
+    }
+
+    const removeUser = (username: string, securityCode: string) => {
+        if (!trip) throw new Error("Trip not loaded");
+        if (trip.securityCode !== securityCode) throw new Error("Invalid security code");
+        try {
+            removeUserFromTrip(tripId, username, securityCode);
+            const updatedTrip = { ...trip, users: trip.users.filter((user: string) => user !== username) };
+            setTrip(updatedTrip);
+        } catch (error) {
+            console.error("Error removing user from trip:", error);
+        }
+    }
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
 
     return (
-        <TripContext.Provider value={{ trips, fetchTrips, createTrip, submitVote, fetchResults }}>
+        <TripContext.Provider value={{ trip, addUser, removeUser }}>
             {children}
         </TripContext.Provider>
     );
-};
+}
+    

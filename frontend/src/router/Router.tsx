@@ -8,6 +8,7 @@ import {
   Vote,
   Trip
 } from "src/components";
+import { TripProvider } from "src/contexts";
 
 // Put in the routes in the router
 const routes = [
@@ -25,7 +26,11 @@ const routes = [
       },
       {
         path: "/trip/:tripId",
-        element: <Trip />,
+        element: (
+          <TripProvider>
+            <Trip />
+          </TripProvider>
+        ),
         children: [
           {
             path: "results",

@@ -13,7 +13,6 @@ export const Results = () => {
     const fetchResults = async () => {
       try {
         const { data } = await axiosInstance.get("/trip/trip123/results");
-        console.log(data);
         setGlobalResults(new Map(Object.entries(data.globalResults)));
         setDayWinner(data.dayWinner);
       } catch (err) {

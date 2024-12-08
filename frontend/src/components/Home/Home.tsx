@@ -1,10 +1,10 @@
-import { useTripData } from "../../hooks";
+import { useTrips } from "src/hooks";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 import { useEffect } from "react";
 
 export const Home = () => {
-  const { trips, fetchTrips } = useTripData();
+  const { trips, fetchTrips } = useTrips();
 
   const navigate = useNavigate();
 
@@ -15,11 +15,6 @@ export const Home = () => {
   useEffect(() => {
     fetchTrips();
   }, [fetchTrips]);
-
-  // Log trips for debugging
-  useEffect(() => {
-    console.log(trips); // Check if trips are being fetched correctly
-  }, [trips]);
 
   const tripList = trips ? Object.entries(trips) : []; // Convertir en un tableau de tuples [tripId, Trip]
 

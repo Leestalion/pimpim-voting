@@ -15,3 +15,7 @@ export interface VoteData {
     date: string;
     vote: number;
 }
+
+export interface Results {
+    [date: string]: Record<string, number>;
+}

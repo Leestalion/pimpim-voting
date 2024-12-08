@@ -1,16 +1,19 @@
+import { Trip } from "src/types";
 import { createContext } from "react";
-import { Trips, VoteData } from "../types";
-
 
 export interface TripContextType {
-    trips: Trips | null;
-    fetchTrips: () => void;
-    createTrip: (tripData: {name: string, securityCode: string}) => void;
-    submitVote: (voteData: VoteData) => void;
-    fetchResults: (tripId: string) => void;
+    trip: Trip;
+    addUser: (username: string, securityCode: string) => void;
+    removeUser: (username: string, securityCode: string) => void;
 }
 
-export const TripContext = createContext<TripContextType | undefined>(undefined);
-
-
-
+export const TripContext = createContext<TripContextType>({
+    trip: {
+        name: "",
+        securityCode: "",
+        users: [],
+        votes: {} as const
+    } as const,
+    addUser: () => {},
+    removeUser: () => {},
+});

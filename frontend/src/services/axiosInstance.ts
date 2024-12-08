@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-    baseURL: `${window.location.origin.replace(/:\d+$/, ":5000")}`,
+    baseURL: import.meta.env.VITE_API_URL + '/api',
     headers: { "Content-Type": "application/json" },
 });
