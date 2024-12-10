@@ -21,14 +21,14 @@ WORKDIR /app
 # Copy backend and frontend dist folders
 COPY --from=frontend-build /app/frontend/dist /app/frontend/dist
 COPY --from=backend-build /app/backend/dist /app/backend/dist
-COPY ./package.json ./package-lock.json ./app/
-COPY ./backend/knexfile.ts ./app/
-COPY ./backend/migrations ./app/migrations/
 
-# Install dependencies
-# Install serve globally
+COPY ./backend/knexfile.js ./
+COPY ./backend/migrations ./migrations/
+
+# Install dependencies for database migration
+RUN npm install dotenv ts-node pg knex
+# Install dependencies for serving frontend
 RUN npm install -g serve
-RUN npm install --prefix /app
 
 # Expose ports
 EXPOSE 3000 5000

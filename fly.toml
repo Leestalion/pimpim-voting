@@ -39,8 +39,8 @@ port = 5001  # Enable HTTPS for backend
 size = "shared-cpu-1x"
 
 [[env]]
-NODE_ENV = "production"
+NODE_ENV = "production" 
 DATA_DIR="/data"
 
 [deploy]
-release_command = "knex migrate:latest --env production --knexfile ./knexfile.ts"
+release_command = "npx knex migrate:latest"
