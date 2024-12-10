@@ -41,3 +41,6 @@ size = "shared-cpu-1x"
 [[env]]
 NODE_ENV = "production"
 DATA_DIR="/data"
+
+[deploy]
+release_command = "knex migrate:latest --env production --knexfile ./knexfile.ts"

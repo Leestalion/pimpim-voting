@@ -18,12 +18,17 @@ RUN npm run build
 FROM node:20-slim
 WORKDIR /app
 
-# Install serve globally
-RUN npm install -g serve
-
 # Copy backend and frontend dist folders
 COPY --from=frontend-build /app/frontend/dist /app/frontend/dist
 COPY --from=backend-build /app/backend/dist /app/backend/dist
+COPY ./package.json ./package-lock.json ./app/
+COPY ./backend/knexfile.ts ./app/
+COPY ./backend/migrations ./app/migrations/
+
+# Install dependencies
+# Install serve globally
+RUN npm install -g serve
+RUN npm install --prefix /app
 
 # Expose ports
 EXPOSE 3000 5000

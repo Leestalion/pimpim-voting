@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "migrate": "cross-env NODE_ENV=development npx knex --knexfile knexfile.ts migrate:latest",
     "dev": "cross-env NODE_ENV=development nodemon --mode development",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "start": "node dist/server.js"
@@ -16,6 +17,8 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.7",
     "express": "^4.21.1",
+    "knex": "^3.1.0",
+    "pg": "^8.13.1",
     "uuid": "^11.0.3"
   },
   "devDependencies": {
