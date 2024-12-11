@@ -9,38 +9,34 @@ destination = "/data"
 
 # Frontend HTTP service (public, on default ports)
 [[services]]
-internal_port = 3000  # Frontend app port
-processes = ["app"]
-force_https = true  # Redirect all HTTP to HTTPS
-auto_stop_machines = true  # Corrected to boolean
-auto_start_machines = true
-min_machines_running = 0
-
-[[services.ports]]
-handlers = ["http"]
-port = 80  # Public HTTP for frontend
-
-[[services.ports]]
-handlers = ["tls"]
-port = 443  # Enable HTTPS for frontend
-
+    internal_port = 3000       # Frontend app port
+    processes = ["app"]
+    force_https = true         # Redirect all HTTP to HTTPS
+    auto_stop_machines = true  # Corrected to boolean
+    auto_start_machines = true
+    min_machines_running = 0
+    [[services.ports]]
+        handlers = ["http"]
+        port = 80           # Public HTTP for frontend
+    [[services.ports]]
+        handlers = ["tls"]
+        port = 443         # Enable HTTPS for frontend
 [[services]]
-internal_port = 5000  # Backend app port
-
-[[services.ports]]
-handlers = ["http"]
-port = 5000  # Public HTTP for backend
-
-[[services.ports]]
-handlers = ["tls"]
-port = 5001  # Enable HTTPS for backend
+    internal_port = 5000 # Backend app port
+    processes = ["app"]
+    [[services.ports]]
+        handlers = ["http"]
+        port = 5000         # Public HTTP for backend
+    [[services.ports]]
+        handlers = ["tls"]
+        port = 5001        # Enable HTTPS for backend
 
 [[vm]]
 size = "shared-cpu-1x"
 
-[[env]]
-NODE_ENV = "production" 
-DATA_DIR="/data"
+[env]
+NODE_ENV = "production"
+DATA_DIR = "/data"
 
 [deploy]
-release_command = "npx knex migrate:latest"
+release_command = "/bin/sh /app/run-migrations.sh"

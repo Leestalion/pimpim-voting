@@ -17,6 +17,7 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.7",
     "express": "^4.21.1",
+    "joi": "^17.13.3",
     "knex": "^3.1.0",
     "pg": "^8.13.1",
     "uuid": "^11.0.3"
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/joi": "^17.2.3",
     "@types/node": "^22.10.1",
     "nodemon": "^3.1.7",
     "ts-loader": "^9.5.1",

@@ -1,4 +1,5 @@
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
+import { Knex } from 'knex';
 
 const environment = process.env.NODE_ENV || 'development';
 const envFile = `.env.${environment}`;
@@ -20,7 +21,9 @@ if (environment === 'development') {
   }
 }
 
-module.exports = {
+export type Environment = 'development' | 'production';
+
+export default {
   development: {
     client: 'pg',
     connection: {
@@ -50,4 +53,4 @@ module.exports = {
       directory: './seeds',
     },
   },
-};
+} as Record<Environment, Knex.Config>;

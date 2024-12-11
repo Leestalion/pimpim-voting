@@ -22,13 +22,14 @@ WORKDIR /app
 COPY --from=frontend-build /app/frontend/dist /app/frontend/dist
 COPY --from=backend-build /app/backend/dist /app/backend/dist
 
-COPY ./backend/knexfile.js ./
+COPY ./backend/src/knexfile.ts ./
 COPY ./backend/migrations ./migrations/
+COPY ./backend/run-migrations.sh ./
 
 # Install dependencies for database migration
-RUN npm install dotenv ts-node pg knex
+RUN npm install dotenv pg knex
 # Install dependencies for serving frontend
-RUN npm install -g serve
+RUN npm install -g serve ts-node
 
 # Expose ports
 EXPOSE 3000 5000

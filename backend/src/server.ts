@@ -1,6 +1,6 @@
 import express, { Application, Response, Request } from 'express';
 import cors from 'cors';
-import { createTrip, createUserInTrip, getAllTrips, getAllUsersInTrip, getTripById, getTripResults, voteForTrip } from './services';
+import { createTrip, createUserInTrip, getAllTrips, getAllUsersInTrip, getTripById, getTripResults, voteForTrip } from './services_old';
 import { Trip } from './types';
 import { tripNameExists } from './utils';
 

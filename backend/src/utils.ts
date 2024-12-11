@@ -1,4 +1,4 @@
-import { getAllTrips } from "./services";
+import { getAllTrips } from "./services_old";
 import { Trip } from "./types";
 
 export function tripNameExists(tripName: string): boolean {
