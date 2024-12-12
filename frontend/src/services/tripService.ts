@@ -12,7 +12,7 @@ export const fetchTripById = async (tripId: string) => {
 }
 
 export const createTrip = async (tripData: {name: string, securityCode: string}): Promise<void> => {
-    const response = await axiosInstance.post("/trips", tripData);
+    const response = await axiosInstance.post("/trip", tripData);
     if (response.status !== 201) {
         throw new Error(`Failed to create trip: ${response.statusText}`);
     }

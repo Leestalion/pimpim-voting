@@ -23,8 +23,8 @@ COPY --from=frontend-build /app/frontend/dist /app/frontend/dist
 COPY --from=backend-build /app/backend/dist /app/backend/dist
 
 COPY ./backend/src/knexfile.ts ./
-COPY ./backend/migrations ./migrations/
-COPY ./backend/run-migrations.sh ./
+COPY ./backend/src/migrations ./migrations/
+COPY ./backend/scripts/run-migrations.sh ./
 
 # Install dependencies for database migration
 RUN npm install dotenv pg knex
