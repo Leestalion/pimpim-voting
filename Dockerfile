@@ -28,6 +28,9 @@ COPY ./backend/scripts/run-migrations.sh ./
 COPY ./backend/scripts/deploy.sh ./
 COPY ./backend/scripts/rollback-migrations.sh ./
 
+# Grant executable permissions to all scripts
+RUN chmod +x ./deploy.sh ./run-migrations.sh ./rollback-migrations.sh
+
 # Install dependencies for database migration
 RUN npm install dotenv pg knex
 # Install dependencies for serving frontend
