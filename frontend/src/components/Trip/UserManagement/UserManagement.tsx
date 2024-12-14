@@ -1,16 +1,19 @@
 import { FormEvent, useEffect, useState } from "react";
-import { useTrip } from "src/hooks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
+import { useTrip } from "src/hooks";
 import styles from "./UserManagement.module.css";
-import { EditableUsername } from "./EditableUsername";
+import { EditableField } from "./EditableField";
+import { ConfirmationModal } from "src/components/Modal";
 
 export const UserManagement = () => {
-  const { users, fetchUsers, addUser, editUser } = useTrip();
+  const { users, fetchUsers, addUser, editUser, deleteUser } = useTrip();
   const [username, setUsername] = useState("");
   const [securityCode, setSecurityCode] = useState("");
   const [editingUserId, setEditingUserId] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userIdToDelete, setUserIdToDelete] = useState<string | null>(null);
 
   const handleSave = (id: string, newUsername: string) => {
     editUser(id, newUsername);
@@ -47,12 +50,30 @@ export const UserManagement = () => {
     setUsername("");
   };
 
+  const handleDelete = (id: string) => {
+    setUserIdToDelete(id);
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmDelete = (secretCode: string) => {
+    if (userIdToDelete) {
+      deleteUser(userIdToDelete, secretCode);
+      setUserIdToDelete(null);
+    }
+    setIsModalOpen(false);
+  };
+
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
 
   return (
     <div>
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+      />
       <h3>Gestion des utilisateurs</h3>
 
       <form onSubmit={handleAddUser}>
@@ -74,8 +95,9 @@ export const UserManagement = () => {
       <ul className={styles.userList}>
         {users.map((user) => (
           <li key={user.id} className={styles.userListElement}>
-            <EditableUsername
-              initialUsername={user.username}
+            <EditableField
+              label="nom d'utilisateur"
+              initialValue={user.username}
               isEditing={editingUserId === user.id}
               onEdit={() => handleEdit(user.id)}
               onSave={(newUsername) => handleSave(user.id, newUsername)}
@@ -84,7 +106,7 @@ export const UserManagement = () => {
             <FontAwesomeIcon
               className={`${styles.icon} ${styles.iconRed}`}
               icon={faTrash}
-              onClick={() => console.log(user.username)}
+              onClick={() => handleDelete(user.id)}
             />
           </li>
         ))}

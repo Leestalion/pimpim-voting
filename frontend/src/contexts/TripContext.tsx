@@ -4,10 +4,12 @@ import { createContext } from "react";
 export interface TripContextType {
     trip: Trip;
     users: User[];
+    editTrip: (tripName: string, securityCode: string) => void;
+    deleteTrip: (securityCode: string) => void;
     fetchUsers: () => void;
     addUser: (username: string, securityCode: string) => void;
     editUser: (id: string, username: string) => void;
-    removeUser: (username: string, securityCode: string) => void;
+    deleteUser: (id: string, securityCode: string) => void;
 }
 
 export const TripContext = createContext<TripContextType>({
@@ -17,8 +19,10 @@ export const TripContext = createContext<TripContextType>({
         securityCode: "",
     },
     users: [],
+    editTrip: () => {},
+    deleteTrip: () => {},
     fetchUsers: () => {},
     addUser: () => {},
     editUser: () => {},
-    removeUser: () => {},
+    deleteUser: () => {},
 });

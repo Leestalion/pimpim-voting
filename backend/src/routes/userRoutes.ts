@@ -11,4 +11,6 @@ router.post('/trip/user', userController.addUserInTrip);
 
 router.put('/trip/user', userController.updateUser);
 
+router.delete('/trip/user', userController.deleteUser);
+
 export default router;

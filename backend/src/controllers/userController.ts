@@ -42,3 +42,17 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
         next(err);
     }
 }
+
+export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = req.body.user;
+        const securityCode = req.body.securityCode;
+
+        tripService.checkSecurityCode(user.tripId, securityCode);
+
+        await userService.deleteUser(user);
+        res.status(200).send("User deleted");
+    } catch (err) {
+        next(err);
+    }
+}

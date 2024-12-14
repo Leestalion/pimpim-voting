@@ -17,6 +17,16 @@ export const getAllTrips = () => {
   });
 };
 
-export const createTrip = (trip: Trip) => {
-  return db("trips").insert({ name: trip.name, security_code: trip.securityCode }).returning("*");
+export const createTrip = async (trip: Trip) => {
+  const rows = await db("trips").insert({ name: trip.name, security_code: trip.securityCode }).returning("*");
+  return rows[0];
+};
+
+export const editTrip = (trip: Trip) => {
+  return db("trips").where({ id: trip.id }).update({ name: trip.name, security_code: trip.securityCode }).returning("*");
+};
+
+export const deleteTrip = (trip: Trip) => {
+  console.log(trip);
+  return db("trips").where({ id: trip.id }).delete();
 };

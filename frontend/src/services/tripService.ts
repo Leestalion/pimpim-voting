@@ -11,10 +11,25 @@ export const fetchTripById = async (tripId: string) => {
     return response.data;
 }
 
-export const createTrip = async (tripData: {name: string, securityCode: string}): Promise<void> => {
+export const createTrip = async (tripData: {name: string, securityCode: string}): Promise<Trip> => {
     const response = await axiosInstance.post("/trip", tripData);
     if (response.status !== 201) {
         throw new Error(`Failed to create trip: ${response.statusText}`);
+    }
+    return response.data;
+};
+
+export const editTripService = async (trip: Trip): Promise<void> => {
+    const response = await axiosInstance.put("/trip", trip);
+    if (response.status !== 200) {
+        throw new Error(`Failed to edit trip: ${response.statusText}`);
+    }
+};
+
+export const deleteTripService = async (trip: Trip, securityCode: string): Promise<void> => {
+    const response = await axiosInstance.delete(`/trip`, { data: { trip,  securityCode } });
+    if (response.status !== 200) {
+        throw new Error(`Failed to delete trip: ${response.statusText}`);
     }
 };
 
@@ -42,16 +57,16 @@ export const createUserInTrip = async (user: {username: string, tripId: string},
     }
 };
 
-export const removeUserFromTrip = async (tripId: string, username: string, securityCode: string): Promise<void> => {
-    const response = await axiosInstance.post(`/trip/${tripId}/user/remove`, { username, securityCode });
-    if (response.status !== 200) {
-        throw new Error(`Failed to remove user from trip: ${response.statusText}`);
-    }
-}
-
 export const editUserService = async (user: User): Promise<void> => {
     const response = await axiosInstance.put(`/trip/user`, user);
     if (response.status !== 200) {
         throw new Error(`Failed to edit user: ${response.statusText}`);
+    }
+}
+
+export const deleteUserService = async (user: User, securityCode: string): Promise<void> => {
+    const response = await axiosInstance.delete(`/trip/user/`, { data: { user, securityCode } });
+    if (response.status !== 200) {
+        throw new Error(`Failed to delete user: ${response.statusText}`);
     }
 }

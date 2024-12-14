@@ -3,29 +3,31 @@ import styles from "./UserManagement.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 
-interface EditableUsernameProps {
-  initialUsername: string;
+interface EditableFieldProps {
+  label: string;
+  initialValue: string;
   isEditing: boolean;
   onEdit: () => void;
-  onSave: (newUsername: string) => void;
+  onSave: (newValue: string) => void;
   onCancel: () => void;
 }
 
-export const EditableUsername: React.FC<EditableUsernameProps> = ({
-  initialUsername,
+export const EditableField: React.FC<EditableFieldProps> = ({
+  label,
+  initialValue,
   isEditing,
   onEdit,
   onSave,
   onCancel,
 }) => {
-  const [ tempName, setTempName ] = useState(initialUsername);
+  const [tempValue, setTempValue] = useState(initialValue);
 
   const handleSave = () => {
-    if (tempName.trim() === "") {
-      alert("Veuillez entrer un nom d'utilisateur");
+    if (tempValue.trim() === "") {
+      alert(`Veuillez entrer un ${label}`);
       return;
     }
-    onSave(tempName);
+    onSave(tempValue);
   };
 
   return (
@@ -34,18 +36,16 @@ export const EditableUsername: React.FC<EditableUsernameProps> = ({
         <div className={styles.userButton}>
           <input
             type="text"
-            value={tempName}
-            onChange={(e) => setTempName(e.target.value)}
+            value={tempValue}
+            onChange={(e) => setTempValue(e.target.value)}
             autoFocus
           />
           <FontAwesomeIcon className={`${styles.icon} ${styles.iconGreen}`} icon={faCheck} onClick={handleSave} />
           <FontAwesomeIcon className={`${styles.icon} ${styles.iconRed}`} icon={faXmark} onClick={onCancel} />
         </div>
       ) : (
-        <>
-          <button onClick={onEdit} className={styles.userButton}>{initialUsername}</button>
-        </>
+        <button onClick={onEdit} className={styles.userButton}>{initialValue}</button>
       )}
     </>
-  )
+  );
 };

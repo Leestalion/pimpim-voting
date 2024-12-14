@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useState } from "react";
+import { PropsWithChildren, useCallback, useState } from "react";
 import { Trip, VoteData } from "../types";
 import { TripsContext } from "./TripsContext";
 import {
@@ -7,11 +7,11 @@ import {
   submitVote as submitVoteService,
   fetchResults as fetchResultsService,
 } from "src/services";
+import { useNavigate } from "react-router-dom";
 
-export const TripsProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+export const TripsProvider = ({ children }: PropsWithChildren) => {
   const [trips, setTrips] = useState<Trip[] | null>(null);
+  const navigate = useNavigate();
 
   // Fetch trips data from the backend
   const fetchTrips = useCallback(async () => {
@@ -29,8 +29,9 @@ export const TripsProvider: React.FC<{ children: ReactNode }> = ({
     securityCode: string;
   }) => {
     try {
-      await createTripService(tripData);
+      const createdTrip = await createTripService(tripData);
       await fetchTrips();
+      navigate(`/trip/${createdTrip.id}`);
     } catch (err) {
       console.error("Error creating trip:", err);
     }
@@ -54,7 +55,7 @@ export const TripsProvider: React.FC<{ children: ReactNode }> = ({
         if (!prevTrips) {
           return prevTrips;
         }
-        return prevTrips.map(trip =>
+        return prevTrips.map((trip) =>
           trip.id === tripId ? { ...trip, results: data } : trip
         );
       });

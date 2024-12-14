@@ -21,8 +21,32 @@ export const getAllTrips = async (req: Request, res: Response, next: NextFunctio
 
 export const createTrip = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        await tripService.createTrip(req.body);
-        res.status(201).send("Trip created");
+        const createdTrip = await tripService.createTrip(req.body);
+        res.status(201).json(createdTrip);
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const editTrip = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await tripService.editTrip(req.body);
+        res.status(200).send("Trip updated");
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const deleteTrip = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const trip = req.body.trip;
+        const securityCode = req.body.securityCode;
+
+        tripService.checkSecurityCode(trip.id, securityCode);
+
+        await tripService.deleteTrip(req.body.trip);
+
+        res.status(200).send("Trip deleted");
     } catch (err) {
         next(err);
     }

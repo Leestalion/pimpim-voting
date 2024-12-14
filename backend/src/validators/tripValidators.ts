@@ -6,4 +6,12 @@ const createTripSchema = Joi.object({
     securityCode: Joi.string().required(),
 });
 
+const editTripSchema = Joi.object({
+    id: Joi.string().required(),
+    name: Joi.string().required(),
+    securityCode: Joi.string().required(),
+});
+
 export const validateCreateTrip = (data: Trip) => createTripSchema.validate(data);
+
+export const validateEditTrip = (data: Trip) => editTripSchema.validate(data);

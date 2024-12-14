@@ -25,6 +25,21 @@ export const createTrip = async (tripData: Trip) => {
     return trip;
 };
 
+export const editTrip = async (tripData: Trip) => {
+    try {
+        tripValidator.validateEditTrip(tripData);
+    } catch (err) {
+        throw new Error("Invalid trip");
+    }
+    const trip = await tripModel.editTrip(tripData);
+    return trip;
+};
+
+export const deleteTrip = async (tripData: Trip) => {
+    const trip = await tripModel.deleteTrip(tripData);
+    return trip;
+};
+
 export const checkSecurityCode = async (id: string, securityCode: string) => {
     const trip = await tripModel.getTripById(id);
     if (!trip) {

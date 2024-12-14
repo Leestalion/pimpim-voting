@@ -16,3 +16,7 @@ export const addUserInTrip = (user: User) => {
 export const updateUser = (user: User) => {
   return db("users").where({ id: user.id }).update({ username: user.username }).returning("*");
 }
+
+export const deleteUser = (user: User) => {
+  return db("users").where({ id: user.id }).delete();
+}

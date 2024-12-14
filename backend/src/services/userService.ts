@@ -26,3 +26,8 @@ export const updateUser = async (user: User) => {
     const updatedUser = await userModel.updateUser(user);
     return updatedUser;
 };
+
+export const deleteUser = async (user: User) => {
+    const deletedUser = await userModel.deleteUser(user);
+    return deletedUser;
+};
