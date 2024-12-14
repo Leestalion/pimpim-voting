@@ -1,0 +1,1 @@
+export { VoteSummary } from "./VoteSummary";

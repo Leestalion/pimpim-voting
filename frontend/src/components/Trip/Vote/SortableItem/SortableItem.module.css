@@ -1,0 +1,14 @@
+.sortableItem {
+  transform: translate(0, 0);
+  transition: transition;
+  touch-action: none;
+  background-color: #444444;
+  list-style-type: none;
+  display: flex;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+  width: 100%;
+  justify-content: space-between;
+  cursor: grab;
+}

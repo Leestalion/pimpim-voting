@@ -1,0 +1,31 @@
+.votedUser {
+    background-color: #444444;
+    list-style-type: none;
+    display: flex;
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin: 0.5rem 0;
+}
+
+.votedUserList {
+    padding: 0;
+}
+
+.goldCrown {
+    color: gold;
+    padding-right: 0.5rem;
+}
+
+.silverCrown {
+    color: silver;
+    padding-right: 0.5rem;
+}
+
+.copperCrown {
+    color: #cd7f32;
+    padding-right: 0.5rem;
+}
+
+.editButton {
+    padding: 0 1rem;
+}

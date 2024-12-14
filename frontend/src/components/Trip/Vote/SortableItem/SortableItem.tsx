@@ -1,6 +1,8 @@
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 
+import styles from "./SortableItem.module.css";
+
 interface SortableItemProps {
   id: string;
   children: React.ReactNode;
@@ -17,7 +19,7 @@ export const SortableItem = ({ id, children }: SortableItemProps) => {
   };
 
   return (
-    <li ref={setNodeRef} style={style} {...attributes} {...listeners}>
+    <li ref={setNodeRef} className={styles.sortableItem} style={style} {...attributes} {...listeners}>
       {children}
     </li>
   );

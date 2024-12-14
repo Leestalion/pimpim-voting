@@ -15,3 +15,40 @@
     border-radius: 8px;
     margin: 1rem 0;
 }
+
+.userItem {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem;
+    background-color: #333333;
+    padding: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.userItem:hover {
+    background-color: #444444;
+}
+
+.userList {
+    padding: 0;
+}
+
+.votingUser {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #181818;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.switchUserButton {
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 1rem;
+    height: 3rem;
+    width: 3rem;
+}
