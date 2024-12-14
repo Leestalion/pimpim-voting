@@ -39,4 +39,4 @@ NODE_ENV = "production"
 DATA_DIR = "/data"
 
 [deploy]
-release_command = "/bin/sh /app/run-migrations.sh"
+release_command = "/bin/sh /app/deploy.sh"

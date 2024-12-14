@@ -1,12 +1,12 @@
-import { PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren, useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom"
 import { TripContext } from "./TripContext";
-import { Trip } from "src/types";
-import { createUserInTrip, fetchTripById, removeUserFromTrip } from "src/services";
+import { Trip, User } from "src/types";
+import { fetchUsersInTrip, createUserInTrip, fetchTripById, removeUserFromTrip, editUserService } from "src/services";
 
 export const TripProvider = ({ children }: PropsWithChildren) => {
     
-    const emptyTrip: Trip = { name: '', users: [], securityCode: '', votes: {} };
+    const emptyTrip: Trip = { id: '', name: '', securityCode: '' };
 
     const { tripId } = useParams<{ tripId: string}>();
 
@@ -14,7 +14,8 @@ export const TripProvider = ({ children }: PropsWithChildren) => {
         throw new Error("Trip ID not provided");
     }
 
-    const [trip, setTrip] = useState<Trip>(emptyTrip);
+    const [ trip, setTrip ] = useState<Trip>(emptyTrip);
+    const [ users, setUsers ] = useState<User[]>([]);
     const [ loading, setLoading ] = useState<boolean>(true);
     const [ error, setError ] = useState<string | null>(null);
 
@@ -43,25 +44,45 @@ export const TripProvider = ({ children }: PropsWithChildren) => {
         loadTrip();
     }, [tripId]);
 
-    const addUser = (username: string, securityCode: string) => {
+    const fetchUsers = useCallback(async () => {
         if (!trip) throw new Error("Trip not loaded");
-        if (trip.securityCode !== securityCode) throw new Error("Invalid security code");
         try {
-            createUserInTrip(tripId, username, securityCode);
-            const updatedTrip = { ...trip, users: [...trip.users, username] };
-            setTrip(updatedTrip);
+            const users = await fetchUsersInTrip(trip.id);
+            setUsers(users);
+        } catch(error) {
+            console.error("Error fetching users:", error);
+        }
+    }, [trip]);
+
+    const addUser = async (username: string, securityCode: string) => {
+        if (!trip) throw new Error("Trip not loaded");
+        try {
+            const user = { username, tripId: trip.id };
+            await createUserInTrip(user, securityCode);
+            await fetchUsers();
         } catch (error) {
             console.error("Error adding user to trip:", error);
         }
     }
+
+    const editUser = async (id: string, newUsername: string) => {
+        if(!trip) throw new Error("Trip not loaded");
+        try {
+            const user = { id: id, username: newUsername, tripId: trip.id };
+            await editUserService(user);
+            await fetchUsers();
+        } catch(error) {
+            console.error("Error editing user:", error);
+        }
+    };
 
     const removeUser = (username: string, securityCode: string) => {
         if (!trip) throw new Error("Trip not loaded");
         if (trip.securityCode !== securityCode) throw new Error("Invalid security code");
         try {
             removeUserFromTrip(tripId, username, securityCode);
-            const updatedTrip = { ...trip, users: trip.users.filter((user: string) => user !== username) };
-            setTrip(updatedTrip);
+            // const updatedTrip = { ...trip, users: trip.users.filter((user: User) => user.username !== username) };
+            // setTrip(updatedTrip);
         } catch (error) {
             console.error("Error removing user from trip:", error);
         }
@@ -71,9 +92,8 @@ export const TripProvider = ({ children }: PropsWithChildren) => {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <TripContext.Provider value={{ trip, addUser, removeUser }}>
+        <TripContext.Provider value={{ trip, users, fetchUsers, addUser, editUser, removeUser }}>
             {children}
         </TripContext.Provider>
     );
-}
-    
+};

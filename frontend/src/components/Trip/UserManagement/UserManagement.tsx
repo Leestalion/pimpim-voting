@@ -1,37 +1,55 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useTrip } from "src/hooks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./UserManagement.module.css";
+import { EditableUsername } from "./EditableUsername";
 
 export const UserManagement = () => {
-  const { trip, addUser } = useTrip();
+  const { users, fetchUsers, addUser, editUser } = useTrip();
   const [username, setUsername] = useState("");
   const [securityCode, setSecurityCode] = useState("");
+  const [editingUserId, setEditingUserId] = useState<string | null>(null);
+
+  const handleSave = (id: string, newUsername: string) => {
+    editUser(id, newUsername);
+    setEditingUserId(null);
+  };
+
+  const handleEdit = (id: string) => {
+    setEditingUserId(id);
+  };
+
+  const handleCancel = () => {
+    setEditingUserId(null);
+  };
 
   const handleAddUser = (e: FormEvent) => {
     e.preventDefault();
 
     if (!username) {
       alert("Veuillez entrer un nom d'utilisateur");
+      return;
     }
 
     if (!securityCode) {
       alert("Veuillez entrer un code de sécurité");
+      return;
     }
 
-    if (trip.users.includes(username)) {
+    if (users.some((user) => user.username === username)) {
       alert("L'utilisateur existe déjà");
-    }
-
-    if (trip.securityCode !== securityCode) {
-      alert("Code de sécurité invalide");
+      return;
     }
 
     addUser(username, securityCode);
     setUsername("");
   };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
 
   return (
     <div>
@@ -54,19 +72,20 @@ export const UserManagement = () => {
       </form>
 
       <ul className={styles.userList}>
-        {trip.users.map((user, index) => (
-          <li key={index} className={styles.userListElement}>
-            <button
-              className={styles.userButton}
-              onClick={() => console.log("modifier l'utilisateur")}
-            >
-              {user}{" "}
-            </button>
+        {users.map((user) => (
+          <li key={user.id} className={styles.userListElement}>
+            <EditableUsername
+              initialUsername={user.username}
+              isEditing={editingUserId === user.id}
+              onEdit={() => handleEdit(user.id)}
+              onSave={(newUsername) => handleSave(user.id, newUsername)}
+              onCancel={handleCancel}
+            />
             <FontAwesomeIcon
-              className={styles.icon}
-                onClick={(e) =>{e.stopPropagation(); console.log("supprimer l'utilisateur")}}
-                icon={faTrash}
-              />
+              className={`${styles.icon} ${styles.iconRed}`}
+              icon={faTrash}
+              onClick={() => console.log(user.username)}
+            />
           </li>
         ))}
       </ul>

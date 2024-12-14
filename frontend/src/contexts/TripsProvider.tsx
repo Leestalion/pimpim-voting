@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useState } from "react";
-import { Trips, VoteData } from "../types";
+import { Trip, VoteData } from "../types";
 import { TripsContext } from "./TripsContext";
 import {
   fetchTrips as fetchTripsService,
@@ -11,7 +11,7 @@ import {
 export const TripsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [trips, setTrips] = useState<Trips | null>(null);
+  const [trips, setTrips] = useState<Trip[] | null>(null);
 
   // Fetch trips data from the backend
   const fetchTrips = useCallback(async () => {
@@ -50,17 +50,13 @@ export const TripsProvider: React.FC<{ children: ReactNode }> = ({
   const fetchResults = async (tripId: string) => {
     try {
       const data = await fetchResultsService(tripId);
-      setTrips((prevTrips: Trips | null) => {
+      setTrips((prevTrips: Trip[] | null) => {
         if (!prevTrips) {
           return prevTrips;
         }
-        return {
-          ...prevTrips,
-          [tripId]: {
-            ...prevTrips[tripId],
-            results: data,
-          },
-        };
+        return prevTrips.map(trip =>
+          trip.id === tripId ? { ...trip, results: data } : trip
+        );
       });
     } catch (err) {
       console.error("Error fetching results:", err);

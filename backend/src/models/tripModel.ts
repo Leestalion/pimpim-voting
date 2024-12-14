@@ -1,13 +1,22 @@
-import knex from "knex"
+import { db } from "../db";
+import { Trip } from "../types";
 
 export const getTripById = (id: string) => {
-    return knex('trips').where({ id }).first();
+  return db("trips").select({
+    id: "id",
+    name: "name",
+    securityCode: "security_code",
+  }).where({ id }).first();
 };
 
 export const getAllTrips = () => {
-    return knex('trips');
+  return db("trips").select({
+    id: "id",
+    name: "name",
+    securityCode: "security_code",
+  });
 };
 
-export const createTrip = (tripData: any) => {
-    return knex('trips').insert(tripData).returning('*');
+export const createTrip = (trip: Trip) => {
+  return db("trips").insert({ name: trip.name, security_code: trip.securityCode }).returning("*");
 };

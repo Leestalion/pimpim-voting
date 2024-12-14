@@ -26,4 +26,7 @@ module.exports = {
   stats: {
     warningsFilter: [/Critical dependency: the request of a dependency is an expression/],
   },
+  externals: {
+    knex: 'commonjs knex'
+  }
 };

@@ -1,9 +1,9 @@
 import { createContext } from "react";
-import { Trips, VoteData } from "../types";
+import { Trip, VoteData } from "../types";
 
 
 export interface TripsContextType {
-    trips: Trips | null;
+    trips: Trip[] | null;
     fetchTrips: () => void;
     createTrip: (tripData: {name: string, securityCode: string}) => void;
     submitVote: (voteData: VoteData) => void;

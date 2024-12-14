@@ -1,12 +1,12 @@
 export interface Trip {
+    id: string;
     name: string;
     securityCode: string;
-    users: string[];
-    votes: Record<string, Record<string, number>>; // Date -> User -> Vote
 }
 
-export interface Trips {
-    [tripId: string]: Trip;
+export interface User {
+    username: string;
+    id: string;
 }
 
 export interface VoteData {

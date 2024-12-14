@@ -2,6 +2,7 @@ import { useTrips } from "src/hooks";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 import { useEffect } from "react";
+import { Trip } from "src/types";
 
 export const Home = () => {
   const { trips, fetchTrips } = useTrips();
@@ -16,14 +17,16 @@ export const Home = () => {
     fetchTrips();
   }, [fetchTrips]);
 
-  const tripList = trips ? Object.entries(trips) : []; // Convertir en un tableau de tuples [tripId, Trip]
-
   return (
     <div className={styles.homePage}>
-      {tripList.length > 0 ? (
+      {trips && trips.length > 0 ? (
         <div className={styles.tripList}>
-          {tripList.map(([tripId, trip]) => (
-            <Link key={tripId} to={`/trip/${tripId}`} className={styles.tripLink}>
+          {trips.map((trip: Trip) => (
+            <Link
+              key={trip.id}
+              to={`/trip/${trip.id}`}
+              className={styles.tripLink}
+            >
               <div className={styles.tripCard}>
                 <h3>{trip.name}</h3>
               </div>

@@ -24,3 +24,13 @@ export const createTrip = async (tripData: Trip) => {
     const trip = await tripModel.createTrip(tripData);
     return trip;
 };
+
+export const checkSecurityCode = async (id: string, securityCode: string) => {
+    const trip = await tripModel.getTripById(id);
+    if (!trip) {
+        throw new Error("Trip not found");
+    }
+    if (trip.securityCode !== securityCode) {
+        throw new Error("Invalid security code");
+    }
+};

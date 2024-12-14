@@ -25,6 +25,8 @@ COPY --from=backend-build /app/backend/dist /app/backend/dist
 COPY ./backend/src/knexfile.ts ./
 COPY ./backend/src/migrations ./migrations/
 COPY ./backend/scripts/run-migrations.sh ./
+COPY ./backend/scripts/deploy.sh ./
+COPY ./backend/scripts/rollback-migrations.sh ./
 
 # Install dependencies for database migration
 RUN npm install dotenv pg knex

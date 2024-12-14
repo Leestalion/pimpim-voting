@@ -1,8 +1,5 @@
-import express, { Application, Response, Request } from 'express';
+import express, { Application } from 'express';
 import cors from 'cors';
-import { createTrip, createUserInTrip, getAllTrips, getAllUsersInTrip, getTripById, getTripResults, voteForTrip } from './services_old';
-import { Trip } from './types';
-import { tripNameExists } from './utils';
 
 const app: Application = express();
 const PORT = 5000;
@@ -12,46 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 // API Routes
-const apiRouter = express.Router();
 
-// // Endpoint to get all trips
-// apiRouter.get('/trips', (req: Request, res: Response) => {
-//     res.json(getAllTrips());
-//   });
-  
-// // Endpoint to create a new trip
-// apiRouter.post('/trips', (req: Request, res: Response) => {
-//     const newTrip: Trip = req.body;
-
-//     if(!newTrip.name || !newTrip.securityCode) {
-//         res.status(400).send("Trip name and security code required");
-//         return;
-//     }
-
-//     if (tripNameExists(newTrip.name)) {
-//         res.status(400).send("Trip name already exists");
-//         return;
-//     }
-
-//     try {
-//         createTrip(newTrip);
-//         res.status(201).send("Trip created");
-//     } catch (error) {
-//         res.status(500).send("Error creating trip");
-//     }
-// });
-
-// // Enpoint to get a specific trip
-// apiRouter.get('/trip/:id', (req: Request, res: Response) => {
-//     const { id } = req.params;
-
-//     try {
-//         const trip = getTripById(id)
-//         res.status(200).json(trip);
-//     } catch (error) {
-//         res.status(500).send("Error fetching trip");
-//     }
-// });
 
 
 // // Endpoint to vote for a trip
@@ -92,34 +50,13 @@ const apiRouter = express.Router();
 //     }
 // });
 
-// // Endpoint to get all users in a trip
-// apiRouter.get('/trip/:id/users', (req: Request , res: Response) => {
-//     const { id } = req.params;
-
-//     try {
-//         const users = getAllUsersInTrip(id);
-//         res.status(200).json(users);
-//     } catch (error) {
-//         res.status(500).send("Error fetching users");
-//     }
-// });
-
-// // Enpoint to get the results of a specific trip
-// apiRouter.get('/trip/:id/results', (req: Request, res: Response) => {
-//     const { id } = req.params;
-
-//     try {
-//         const results = getTripResults(id);
-//         res.status(200).json(results);
-//     } catch(error) {
-//         res.status(500).send("Error fetching results");
-//     }
-// });
 
 // Import trip routes
-import tripRouter from './routes/tripRoutes';
+import { tripRouter } from './routes';
+import { userRouter } from './routes';
 
 app.use('/api', tripRouter);
+app.use('/api', userRouter);
 
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`);

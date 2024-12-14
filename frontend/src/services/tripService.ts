@@ -1,7 +1,7 @@
-import { Results, Trips } from "src/types";
+import { Results, Trip, User } from "src/types";
 import { axiosInstance } from "./axiosInstance";
 
-export const fetchTrips = async(): Promise<Trips> => {
+export const fetchTrips = async(): Promise<Trip[]> => {
     const response = await axiosInstance.get("/trips");
     return response.data;
 };
@@ -30,9 +30,14 @@ export const fetchResults = async (tripId: string): Promise<Results> => {
     return response.data;
 }
 
-export const createUserInTrip = async (tripId: string, username: string, securityCode: string): Promise<void> => {
-    const response = await axiosInstance.post(`/trip/${tripId}/user`, {username, securityCode});
-    if (response.status !== 200) {
+export const fetchUsersInTrip = async (tripId: string): Promise<User[]> => {
+    const response = await axiosInstance.get(`/trip/${tripId}/users`);
+    return response.data;
+}
+
+export const createUserInTrip = async (user: {username: string, tripId: string}, securityCode: string): Promise<void> => {
+    const response = await axiosInstance.post(`/trip/user`, {user, securityCode});
+    if (response.status !== 201) {
         throw new Error(`Failed to create user in trip: ${response.statusText}`);
     }
 };
@@ -41,5 +46,12 @@ export const removeUserFromTrip = async (tripId: string, username: string, secur
     const response = await axiosInstance.post(`/trip/${tripId}/user/remove`, { username, securityCode });
     if (response.status !== 200) {
         throw new Error(`Failed to remove user from trip: ${response.statusText}`);
+    }
+}
+
+export const editUserService = async (user: User): Promise<void> => {
+    const response = await axiosInstance.put(`/trip/user`, user);
+    if (response.status !== 200) {
+        throw new Error(`Failed to edit user: ${response.statusText}`);
     }
 }

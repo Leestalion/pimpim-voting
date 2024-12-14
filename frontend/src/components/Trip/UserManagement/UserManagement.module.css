@@ -10,22 +10,37 @@
   background-color: #181818;
   border-radius: 8px;
   padding: 0.4rem;
+  margin-bottom: 0.5rem;
 }
 
 .userButton {
   display: flex;
   text-transform: capitalize;
+  align-items: center;
+  width: 100%;
 }
 
 .icon {
-    color: red;
     cursor: pointer;
     padding-left: 1rem;
     padding-right: 0.7rem;
 
     &:hover {
-        color: darkred;
         transition: 0.2s;
         transform: scale(1.2);
     }
+}
+
+.iconRed {
+  color: red;
+  &:hover {
+    color: darkred;
+  }
+}
+
+.iconGreen {
+  color: green;
+  &:hover {
+    color: darkgreen;
+  }
 }
