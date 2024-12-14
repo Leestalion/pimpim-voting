@@ -13,6 +13,7 @@ export const SortableItem = ({ id, children }: SortableItemProps) => {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    touchAction: "none",
   };
 
   return (
