@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "./confirmationModal.module.css";
+import styles from "./ConfirmationModal.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 
