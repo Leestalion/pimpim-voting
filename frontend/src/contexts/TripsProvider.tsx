@@ -1,11 +1,9 @@
 import { PropsWithChildren, useCallback, useState } from "react";
-import { Trip, VoteData } from "../types";
+import { Trip } from "../types";
 import { TripsContext } from "./TripsContext";
 import {
   fetchTrips as fetchTripsService,
   createTrip as createTripService,
-  submitVote as submitVoteService,
-  fetchResults as fetchResultsService,
 } from "src/services";
 import { useNavigate } from "react-router-dom";
 
@@ -37,36 +35,9 @@ export const TripsProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  // submit a vote
-  const submitVote = async (voteData: VoteData) => {
-    try {
-      await submitVoteService(voteData);
-      await fetchResults(voteData.tripId);
-    } catch (err) {
-      console.error("Error submitting vote:", err);
-    }
-  };
-
-  // fetch results for a specific trip
-  const fetchResults = async (tripId: string) => {
-    try {
-      const data = await fetchResultsService(tripId);
-      setTrips((prevTrips: Trip[] | null) => {
-        if (!prevTrips) {
-          return prevTrips;
-        }
-        return prevTrips.map((trip) =>
-          trip.id === tripId ? { ...trip, results: data } : trip
-        );
-      });
-    } catch (err) {
-      console.error("Error fetching results:", err);
-    }
-  };
-
   return (
     <TripsContext.Provider
-      value={{ trips, fetchTrips, createTrip, submitVote, fetchResults }}
+      value={{ trips, fetchTrips, createTrip }}
     >
       {children}
     </TripsContext.Provider>

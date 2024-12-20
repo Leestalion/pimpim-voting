@@ -1,0 +1,12 @@
+.tripPage {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Desktop view - Sidebar is always visible */
+@media screen and (min-width: 768px) {
+  .tripPage {
+    margin-left: 250px;
+  }
+}

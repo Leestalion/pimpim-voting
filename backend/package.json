@@ -6,6 +6,7 @@
   "scripts": {
     "migrate": "node ./scripts/run-migrations-dev.js",
     "make": "node ./scripts/make-migrations-dev.js",
+    "rollback": "node ./scripts/rollback-dev.js",
     "dev": "cross-env NODE_ENV=development nodemon --mode development",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "start": "node dist/server.js"

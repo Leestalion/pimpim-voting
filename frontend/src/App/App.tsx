@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-
+import "./App.css";
 import styles from "./App.module.css";
 import { TripsProvider } from "src/contexts";
 

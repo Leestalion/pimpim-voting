@@ -1,0 +1,54 @@
+.hamburger {
+  color: white;
+  font-size: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: none; /* Hide by default, show on mobile */
+  width: auto;
+  padding-left: 0;
+}
+
+.hamburger:focus {
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tripHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #181818;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.tripName {
+  background-color: #333333;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .tripHeader {
+    justify-content: flex-start;
+  }
+
+  .hamburger {
+    display: block; /* Show hamburger on mobile */
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .hamburger {
+    display: none; /* Hide hamburger on desktop */
+  }
+
+  .sidebar {
+    display: block; /* Show sidebar on desktop */
+  }
+}

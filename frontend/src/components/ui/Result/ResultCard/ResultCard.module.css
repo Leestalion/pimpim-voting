@@ -1,0 +1,40 @@
+.resultCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #333333;
+}
+
+.userList {
+    padding: 0;
+}
+
+.userItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: #444444;
+    margin-bottom: 0.5rem;
+}
+
+.showButton {
+    display: flex;
+    justify-content: space-around;
+    width: 7rem;
+    cursor: pointer;
+    background-color: #444444;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}

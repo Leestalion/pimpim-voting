@@ -27,6 +27,5 @@ export const editTrip = (trip: Trip) => {
 };
 
 export const deleteTrip = (trip: Trip) => {
-  console.log(trip);
   return db("trips").where({ id: trip.id }).delete();
 };

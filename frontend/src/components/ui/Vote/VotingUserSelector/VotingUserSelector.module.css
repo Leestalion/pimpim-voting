@@ -1,0 +1,18 @@
+.userItem {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem;
+  background-color: #333333;
+  padding: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.userItem:hover {
+  background-color: #444444;
+}
+
+.userList {
+  padding: 0;
+}

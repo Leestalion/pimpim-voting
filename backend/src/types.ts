@@ -13,6 +13,8 @@ export interface User {
 export interface Vote {
     id: string;
     userId: string;
+    voterId: string;
     tripId: string;
+    rank: number;
     day: number;
 }

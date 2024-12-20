@@ -9,11 +9,17 @@ export interface User {
     id: string;
 }
 
-export interface VoteData {
+export interface Vote {
     tripId: string;
+    userId: string;
+    voterId: string;
+    rank: number;
+}
+
+export interface VotedUser {
+    userId: string;
     username: string;
-    date: string;
-    vote: number;
+    score: number;
 }
 
 export interface Results {

@@ -52,11 +52,11 @@ app.use(express.json());
 
 
 // Import trip routes
-import { tripRouter } from './routes';
-import { userRouter } from './routes';
+import { tripRouter, voteRouter, userRouter } from './routes';
 
 app.use('/api', tripRouter);
 app.use('/api', userRouter);
+app.use('/api', voteRouter);
 
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`);

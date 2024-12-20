@@ -1,8 +1,11 @@
 import { PropsWithChildren, useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { TripContext } from "./TripContext";
-import { Trip, User } from "src/types";
+import { Trip, User, Vote } from "src/types";
 import {
+  submitVote,
+  fetchVotesService,
+  fetchVotesForUser,
   editTripService,
   deleteTripService,
   fetchUsersInTrip,
@@ -27,6 +30,8 @@ export const TripProvider = ({ children }: PropsWithChildren) => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [userVotes, setUserVotes] = useState<Vote[]>([]);
+  const [votes, setVotes] = useState<Vote[]>([]);
 
   useEffect(() => {
     const loadTrip = async () => {
@@ -117,6 +122,54 @@ export const TripProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const vote = async (
+    votes_data: { userId: string; voterId: string; rank: number }[]
+  ): Promise<Vote[]> => {
+    if (!trip) throw new Error("Trip not loaded");
+
+    const votes = votes_data.map((vote) => ({
+      ...vote,
+      tripId: trip.id,
+    }));
+
+    try {
+      return await submitVote(votes);
+    } catch (error) {
+      console.error("Error submitting vote:", error);
+      return []
+    }
+  };
+
+  const fetchUserVotes = useCallback(async (user: User): Promise<Vote[]> => {
+    if (!trip) throw new Error("Trip not loaded");
+    try {
+      const votes = await fetchVotesForUser(trip.id, user.id);
+      if (!votes) {
+        throw new Error("Problem fetching votes");
+      }
+      setUserVotes(votes);
+      return votes;
+    } catch (error) {
+      console.error("Error fetching votes:", error);
+      return [];
+    }
+  }, [trip]);
+
+  const fetchVotes = useCallback(async (): Promise<Vote[]> => {
+    if (!trip) throw new Error("Trip not loaded");
+    try {
+      const votes = await fetchVotesService(trip.id);
+      if (!votes) {
+        throw new Error("Problem fetching votes");
+      }
+      setVotes(votes);
+      return votes;
+    } catch (error) {
+      console.error("Error fetching votes:", error);
+      return [];
+    }
+  }, [trip]);
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -124,6 +177,11 @@ export const TripProvider = ({ children }: PropsWithChildren) => {
     <TripContext.Provider
       value={{
         trip,
+        vote,
+        votes,
+        userVotes,
+        fetchVotes,
+        fetchUserVotes,
         editTrip,
         deleteTrip,
         users,

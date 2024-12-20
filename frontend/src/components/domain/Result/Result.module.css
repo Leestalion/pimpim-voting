@@ -1,0 +1,12 @@
+.goToVoteButton {
+    margin: 1rem;;
+    width: 20rem;
+}
+
+@media screen and (max-width: 600px) {
+    .goToVoteButton {
+        width: 100%;
+        margin: 0; 
+        margin-top: 1rem;
+    }
+}
