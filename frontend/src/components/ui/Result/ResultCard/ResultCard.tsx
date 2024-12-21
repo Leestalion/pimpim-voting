@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { VotedUser } from "src/types";
 import styles from "./ResultCard.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,16 +22,19 @@ export const ResultCard = ({ votedUsers }: ResultCardProps) => {
     }
   }, []);
 
-  useEffect(() => {
-    calculateHeight(); // Initial calculation
-    window.addEventListener("resize", calculateHeight); // Recalculate on window resize
-    return () => window.removeEventListener("resize", calculateHeight); // Clean up on unmount
-  }, [calculateHeight]);
+  useLayoutEffect(() => {
+    calculateHeight();
+  }, [calculateHeight, sortedVotedUsers]);
 
-  useEffect(() => {
-    const sorted = votedUsers.sort((a, b) => b.score - a.score);
+  useLayoutEffect(() => {
+    const sorted = [...votedUsers].sort((a, b) => b.score - a.score);
     setSortedVotedUsers(sorted);
-  }, [showAll, votedUsers]);
+  }, [votedUsers]);
+
+  useLayoutEffect(() => {
+    window.addEventListener("resize", calculateHeight);
+    return () => window.removeEventListener("resize", calculateHeight);
+  }, [calculateHeight]);
 
   return (
     <div className={styles.resultCard}>
