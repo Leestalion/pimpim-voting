@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "./Countdown.module.css";
+import styles from "./CountDown.module.css";
 
 export const CountDown = () => {
   const [timeRemaining, setTimeRemaining] = useState("");
