@@ -5,7 +5,8 @@ import { useTrip } from "src/hooks";
 import { ResultCard } from "src/components/ui";
 import styles from "./Result.module.css";
 import { VotedUser } from "src/types";
-import { calculateVotedUsers } from "./score";
+import { calculateVotedUsers, calculateVotedUsersForDay } from "./score";
+import { CountDown } from "./CountDown";
 
 export const Result = () => {
   const navigate = useNavigate();
@@ -24,7 +25,8 @@ export const Result = () => {
   const [duration, setDuration] = useState<number>(0);
 
   const handleSetResultDay = (day: number) => {
-    setVotedUsersDay(votedUsers.filter((votedUser) => votedUser.day === day));
+    const votedUsersDay = calculateVotedUsersForDay(votes, users, day);
+    setVotedUsersDay(votedUsersDay);
   };
 
   useEffect(() => {
@@ -48,9 +50,7 @@ export const Result = () => {
       setVotedUsers(computedVotedUsers);
 
       if (currentDay) {
-        const computedVotedUsersDay = computedVotedUsers.filter(
-          (votedUser) => votedUser.day === currentDay
-        );
+        const computedVotedUsersDay = calculateVotedUsersForDay(votes, users, currentDay)
         setVotedUsersDay(computedVotedUsersDay);
       }
     }
@@ -64,6 +64,8 @@ export const Result = () => {
       >
         Voter
       </button>
+
+      <CountDown />
 
       <ResultCard
         votedUsers={votedUsersDay}
