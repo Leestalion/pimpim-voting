@@ -13,8 +13,10 @@ export const Vote = () => {
   const [votingUser, setVotingUser] = useState<User | null>(null);
   const [votingUserVotes, setVotingUserVotes] = useState<VoteType[]>([]);
   const [voteSubmitted, setVoteSubmitted] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
 
   const handleVotingUserSelection = async (user: User) => {
+    setSelectedUsers([]);
     setVotingUser(user);
     const votes = await fetchUserVotes(user);
     setVotingUserVotes(votes || []);
@@ -23,6 +25,15 @@ export const Vote = () => {
 
   const handleOnModifyVote = () => {
     setVoteSubmitted(false);
+    const previousVotedUsers = votingUserVotes.map((vote) => {
+      return (
+        users.find((user) => user.id === vote.userId) || {
+          id: vote.userId,
+          username: "Unknown User",
+        }
+      );
+    });
+    setSelectedUsers(previousVotedUsers);
   };
 
   const setSummaryVotes = (votes: VoteType[]) => {
@@ -52,7 +63,12 @@ export const Vote = () => {
         </button>
       </div>
       {!voteSubmitted ? (
-        <VotingActions votingUser={votingUser} setSummaryVotes={setSummaryVotes} />
+        <VotingActions
+          votingUser={votingUser}
+          setSummaryVotes={setSummaryVotes}
+          selectedUsers={selectedUsers}
+          setSelectedUsers={setSelectedUsers}
+        />
       ) : (
         <VoteSummary
           votes={votingUserVotes}

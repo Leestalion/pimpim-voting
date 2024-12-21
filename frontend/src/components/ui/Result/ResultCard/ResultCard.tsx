@@ -44,7 +44,7 @@ export const ResultCard = ({ votedUsers }: ResultCardProps) => {
           return (
             <li key={votedUser.userId} className={styles.userItem}>
               <p>{votedUser.username}</p>
-              <p>{votedUser.score}</p>
+                <p>{Math.round(votedUser.score)}</p>
             </li>
           );
         })}

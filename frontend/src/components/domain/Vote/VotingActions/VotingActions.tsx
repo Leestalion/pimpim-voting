@@ -6,11 +6,12 @@ import { VotingActionsUI } from "src/components/ui";
 interface VotingActionsProps {
   votingUser: User;
   setSummaryVotes: (votes: Vote[]) => void;
+  selectedUsers: User[];
+  setSelectedUsers: React.Dispatch<React.SetStateAction<User[]>>;
 }
 
-export const VotingActions = ({ votingUser, setSummaryVotes }: VotingActionsProps) => {
+export const VotingActions = ({ votingUser, setSummaryVotes, selectedUsers, setSelectedUsers }: VotingActionsProps) => {
   const { users, vote } = useTrip();
-  const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
   const [voteSubmitted, setVoteSubmitted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAllUsersSelected, setIsAllUsersSelected] = useState(false);
@@ -36,10 +37,6 @@ export const VotingActions = ({ votingUser, setSummaryVotes }: VotingActionsProp
     setSummaryVotes(votes);
   };
 
-  const handleOnModifyVote = () => {
-    setVoteSubmitted(false);
-  };
-
   const handleSelectAllUsers = () => {
     setSelectedUsers(users);
     setIsAllUsersSelected(true);
@@ -60,7 +57,6 @@ export const VotingActions = ({ votingUser, setSummaryVotes }: VotingActionsProp
       closeModal={closeModal}
       handleUserSelection={handleUserSelection}
       handleVoteSubmit={handleVoteSubmit}
-      handleOnModifyVote={handleOnModifyVote}
       isAllUsersSelected={isAllUsersSelected}
       onSelectAllUsers={handleSelectAllUsers}
       onSelectSomeUsers={handleSelectSomeUsers}
