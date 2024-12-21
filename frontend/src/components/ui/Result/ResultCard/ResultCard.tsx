@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { VotedUser } from "src/types";
 import styles from "./ResultCard.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
