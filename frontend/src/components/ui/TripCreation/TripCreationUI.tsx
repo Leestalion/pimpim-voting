@@ -28,20 +28,20 @@ export const TripCreationUI: React.FC<TripCreationUIProps> = ({
       <form onSubmit={onSubmit} className={styles.form}>
         <input
           type="text"
-          placeholder="Trip Name"
+          placeholder="Nom du voyage"
           value={name}
           onChange={(e) => onNameChange(e.target.value)}
           className={styles.input}
         />
         <input
           type="text"
-          placeholder="Security Code"
+          placeholder="Code de sécurité"
           value={securityCode}
           onChange={(e) => onSecurityCodeChange(e.target.value)}
           className={styles.input}
         />
         <button type="submit" className={styles.button}>
-          Create Trip
+          Créer un voyage
         </button>
       </form>
     </div>
