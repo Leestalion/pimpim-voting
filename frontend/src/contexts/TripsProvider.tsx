@@ -25,6 +25,8 @@ export const TripsProvider = ({ children }: PropsWithChildren) => {
   const createTrip = async (tripData: {
     name: string;
     securityCode: string;
+    startDate: string;
+    endDate: string;
   }) => {
     try {
       const createdTrip = await createTripService(tripData);

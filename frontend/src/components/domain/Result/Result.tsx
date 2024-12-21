@@ -29,7 +29,6 @@ export const Result = () => {
   return (
     <div>
       <button className={styles.goToVoteButton} onClick={() => navigate(`/trip/${trip.id}/vote`)}>Voter</button>
-      <h3>Results Section</h3>
 
       <ResultCard votedUsers={votedUsers} />
 

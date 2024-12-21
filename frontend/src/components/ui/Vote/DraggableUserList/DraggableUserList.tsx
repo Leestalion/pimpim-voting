@@ -51,6 +51,7 @@ export const DraggableUserList = ({
       updatedUsers.splice(newIndex, 0, movedUser);
 
       setOrderedUsers(updatedUsers);
+      console.log("Updated Ordered Users:", updatedUsers);
     }
   };
 
@@ -67,21 +68,19 @@ export const DraggableUserList = ({
           strategy={verticalListSortingStrategy}
         >
           <ul className={styles.sortableList}>
-            {orderedUsers.map((user) => (
+            {orderedUsers.map((user, index) => (
               <div key={user.id} className={styles.sortableItem}>
                 <p className={styles.sortableItemRank}>
-                    {(() => {
-                    const rank =
-                      orderedUsers.findIndex((u) => u.id === user.id) + 1;
-                    if (rank === 1) {
-                      return <FontAwesomeIcon icon={faCrown} className={styles.iconFirst} />;
-                    } else if (rank === 2) {
-                      return <FontAwesomeIcon icon={faCrown} className={styles.iconSecond} />;
-                    } else if (rank === 3) {
-                      return <FontAwesomeIcon icon={faCrown} className={styles.iconThird} />;
-                    }
-                    return `${rank}.`;
-                    })()}
+                    {index === 0 ? (
+                      <FontAwesomeIcon icon={faCrown} className={styles.iconFirst} />
+                    ) : index === 1 ? (
+                      <FontAwesomeIcon icon={faCrown} className={styles.iconSecond} />
+                    ) : index === 2 ? (
+                      <FontAwesomeIcon icon={faCrown} className={styles.iconThird} />
+                    ) : (
+                      `${index + 1}.`
+                    )
+                  }
                 </p>
                 <SortableItem id={user.id}>
                   {user.username}

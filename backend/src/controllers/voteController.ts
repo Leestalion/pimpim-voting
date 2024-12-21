@@ -1,13 +1,16 @@
 import { NextFunction, Request, Response } from "express";
 import { voteService } from "../services";
-
-function getDay() {
-    return 1;
-}
+import { tripService } from "../services";
 
 export const vote = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const day = getDay();
+        const trip = await tripService.getTripById(req.body.votes[0].tripId);
+
+        if (!trip) {
+            throw new Error("Trip not found");
+        }
+
+        const day = await tripService.calculateCurrentDay(trip.id);
         const votes_data = req.body.votes.map((vote: any) => ({
             ...vote,
             day: day

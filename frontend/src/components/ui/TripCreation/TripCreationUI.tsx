@@ -6,8 +6,12 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 interface TripCreationUIProps {
   name: string;
   securityCode: string;
+  startDate: string;
+  endDate: string;
   onNameChange: (value: string) => void;
   onSecurityCodeChange: (value: string) => void;
+  onStartDateChange : (value: string) => void;
+  onEndDateChange : (value: string) => void;
   onSubmit: (e: React.FormEvent) => void;
   onBack: () => void;
 }
@@ -15,8 +19,12 @@ interface TripCreationUIProps {
 export const TripCreationUI: React.FC<TripCreationUIProps> = ({
   name,
   securityCode,
+  startDate,
+  endDate,
   onNameChange,
   onSecurityCodeChange,
+  onStartDateChange,
+  onEndDateChange,
   onSubmit,
   onBack,
 }) => {
@@ -32,6 +40,7 @@ export const TripCreationUI: React.FC<TripCreationUIProps> = ({
           value={name}
           onChange={(e) => onNameChange(e.target.value)}
           className={styles.input}
+          required
         />
         <input
           type="text"
@@ -39,7 +48,27 @@ export const TripCreationUI: React.FC<TripCreationUIProps> = ({
           value={securityCode}
           onChange={(e) => onSecurityCodeChange(e.target.value)}
           className={styles.input}
+          required
         />
+        <label>Date de début
+        <input
+          type="date"
+          value={startDate}
+          onClick={(e) => e.currentTarget.showPicker()}
+          onChange={(e) => onStartDateChange(e.target.value)}
+          className={styles.input}
+          required
+        /></label>
+        <label>Date de fin
+        <input
+          type="date"
+          value={endDate}
+          onClick={(e) => e.currentTarget.showPicker()}
+          onChange={(e) => onEndDateChange(e.target.value)}
+          className={styles.input}
+          required
+        />
+        </label>
         <button type="submit" className={styles.button}>
           Créer un voyage
         </button>

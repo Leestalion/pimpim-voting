@@ -4,6 +4,8 @@ import { Trip } from '../types';
 const createTripSchema = Joi.object({
     name: Joi.string().required(),
     securityCode: Joi.string().required(),
+    startDate: Joi.string().required(),
+    endDate: Joi.string().required(),
 });
 
 const editTripSchema = Joi.object({

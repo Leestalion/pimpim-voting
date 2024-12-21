@@ -24,7 +24,7 @@ export const addUserInTrip = async (req: Request, res: Response, next: NextFunct
         const user = req.body.user;
         const securityCode: string = req.body.securityCode;
 
-        tripService.checkSecurityCode(user.tripId, securityCode);
+        await tripService.checkSecurityCode(user.tripId, securityCode);
 
         await userService.addUserInTrip(user);
         res.status(201).send("User added to trip");
@@ -48,7 +48,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
         const user = req.body.user;
         const securityCode = req.body.securityCode;
 
-        tripService.checkSecurityCode(user.tripId, securityCode);
+        await tripService.checkSecurityCode(user.tripId, securityCode);
 
         await userService.deleteUser(user);
         res.status(200).send("User deleted");

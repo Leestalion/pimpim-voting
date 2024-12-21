@@ -42,7 +42,7 @@ export const deleteTrip = async (req: Request, res: Response, next: NextFunction
         const trip = req.body.trip;
         const securityCode = req.body.securityCode;
 
-        tripService.checkSecurityCode(trip.id, securityCode);
+        await tripService.checkSecurityCode(trip.id, securityCode);
 
         await tripService.deleteTrip(req.body.trip);
 

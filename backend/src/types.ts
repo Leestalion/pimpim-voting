@@ -2,6 +2,8 @@ export interface Trip {
     id: string;
     name: string;
     securityCode: string;
+    startDate: string;
+    endDate: string;
 }
 
 export interface User {

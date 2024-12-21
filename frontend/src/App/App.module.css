@@ -59,6 +59,14 @@ input:focus {
   outline: none;
 }
 
+input[type="date"] {
+  appearance: none; /* Ensures consistent styling across browsers */
+  -webkit-appearance: none; /* For Safari */
+  -moz-appearance: none; /* For Firefox */
+  cursor: pointer; /* Makes the entire input clickable */
+  padding: 10px;
+}
+
 /* Button styling */
 button {
   text-transform: uppercase;
