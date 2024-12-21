@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { TripContext } from "./TripContext";
 import { Trip, User, Vote } from "src/types";
 import {
+  fetchCurrentDayByTripId,
   submitVote,
   fetchVotesService,
   fetchVotesForUser,
@@ -16,7 +17,7 @@ import {
 } from "src/services";
 
 export const TripProvider = ({ children }: PropsWithChildren) => {
-  const emptyTrip: Trip = { id: "", name: "", securityCode: "" };
+  const emptyTrip: Trip = { id: "", name: "", securityCode: "", startDate: "", endDate: "" };
 
   const { tripId } = useParams<{ tripId: string }>();
 
@@ -32,6 +33,7 @@ export const TripProvider = ({ children }: PropsWithChildren) => {
   const [error, setError] = useState<string | null>(null);
   const [userVotes, setUserVotes] = useState<Vote[]>([]);
   const [votes, setVotes] = useState<Vote[]>([]);
+  const [currentDay, setCurrentDay] = useState<number>(1);
 
   useEffect(() => {
     const loadTrip = async () => {
@@ -61,7 +63,7 @@ export const TripProvider = ({ children }: PropsWithChildren) => {
   const editTrip = async (tripName: string, securityCode: string) => {
     if (!trip) throw new Error("Trip not loaded");
     try {
-      const newTrip = { id: trip.id, name: tripName, securityCode };
+      const newTrip = { id: trip.id, name: tripName, securityCode, startDate: trip.startDate, endDate: trip.endDate };
       await editTripService(newTrip);
       setTrip(newTrip);
     } catch (error) {
@@ -130,6 +132,7 @@ export const TripProvider = ({ children }: PropsWithChildren) => {
     const votes = votes_data.map((vote) => ({
       ...vote,
       tripId: trip.id,
+      day: 0,
     }));
 
     try {
@@ -139,6 +142,21 @@ export const TripProvider = ({ children }: PropsWithChildren) => {
       return []
     }
   };
+
+  const fetchCurrentDay = useCallback(async (): Promise<number> => {
+    if (!trip) throw new Error("Trip not loaded");
+    try {
+      const day = await fetchCurrentDayByTripId(trip.id);
+      if (!day) {
+        throw new Error("Problem fetching current day");
+      }
+      setCurrentDay(day);
+      return day;
+    } catch (error) {
+      console.error("Error fetching current day:", error);
+      return 1;
+    }
+  }, [trip]);
 
   const fetchUserVotes = useCallback(async (user: User): Promise<Vote[]> => {
     if (!trip) throw new Error("Trip not loaded");
@@ -177,9 +195,11 @@ export const TripProvider = ({ children }: PropsWithChildren) => {
     <TripContext.Provider
       value={{
         trip,
+        currentDay,
         vote,
         votes,
         userVotes,
+        fetchCurrentDay,
         fetchVotes,
         fetchUserVotes,
         editTrip,

@@ -13,4 +13,6 @@ router.get('/trip/:id', tripController.getTripById);
 
 router.delete('/trip', tripController.deleteTrip);
 
+router.get('/trip/:tripId/day', tripController.getCurrentDayByTripId);
+
 export default router;

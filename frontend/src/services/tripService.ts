@@ -29,6 +29,14 @@ export const editTripService = async (trip: Trip): Promise<void> => {
   }
 };
 
+export const fetchCurrentDayByTripId = async (tripId: string): Promise<number> => {
+  const response = await axiosInstance.get(`/trip/${tripId}/day`);
+  if (response.status !== 200) {
+    throw new Error(`Failed to fetch current day: ${response.statusText}`);
+  }
+  return response.data;
+};
+
 export const deleteTripService = async (
   trip: Trip,
   securityCode: string
@@ -60,6 +68,7 @@ export const submitVote = async (votes: Vote[]): Promise<Vote[]> => {
       voterId: vote.voter_id,
       rank: vote.rank,
       tripId: vote.trip_id,
+      day: vote.vote_day,
     })
   );
   return newVotes
@@ -84,6 +93,7 @@ export const fetchVotesForUser = async (
       voterId: vote.voter_id,
       rank: vote.rank,
       tripId: vote.trip_id,
+      day: vote.vote_day,
     })
   );
   return votes;
@@ -105,6 +115,7 @@ export const fetchVotesService = async (tripId: string): Promise<Vote[]> => {
       voterId: vote.voter_id,
       rank: vote.rank,
       tripId: vote.trip_id,
+      day: vote.vote_day,
     })
   );
   return votes;

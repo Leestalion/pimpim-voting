@@ -3,12 +3,16 @@ import { VotedUser } from "src/types";
 import styles from "./ResultCard.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { DaySelector } from "../DaySelector";
 
 interface ResultCardProps {
   votedUsers: VotedUser[];
+  currentDay?: number;
+  duration?: number;
+  setResultDay?: (day: number) => void;
 }
 
-export const ResultCard = ({ votedUsers }: ResultCardProps) => {
+export const ResultCard = ({ votedUsers, currentDay, duration, setResultDay }: ResultCardProps) => {
   const [showAll, setShowAll] = useState(false);
   const [sortedVotedUsers, setSortedVotedUsers] = useState<VotedUser[]>([]);
 
@@ -38,6 +42,9 @@ export const ResultCard = ({ votedUsers }: ResultCardProps) => {
 
   return (
     <div className={styles.resultCard}>
+      {currentDay !== undefined && setResultDay && (
+        <DaySelector currentDay={currentDay} setResultDay={setResultDay} duration={duration || 0} />
+      )}
       <ul
         ref={listRef}
         className={styles.userList}
@@ -47,7 +54,7 @@ export const ResultCard = ({ votedUsers }: ResultCardProps) => {
           return (
             <li key={votedUser.userId} className={styles.userItem}>
               <p>{votedUser.username}</p>
-                <p>{Math.round(votedUser.score)}</p>
+              <p>{Math.round(votedUser.score)}</p>
             </li>
           );
         })}

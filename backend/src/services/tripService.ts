@@ -57,14 +57,14 @@ export const calculateCurrentDay = async (tripId: string) => {
         throw new Error("Trip not found");
     }
 
-    const startDate = new Date(trip.start_date);
+    const startDate = new Date(trip.startDate);
     const currentDate = new Date();
     const diffInMs = currentDate.getTime() - startDate.getTime();
     const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 
     // Ensure the day is within the trip duration
     const day = diffInDays + 1; // Day 1 is the trip start date
-    if (day < 1 || day > Math.floor((new Date(trip.end_date).getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1) {
+    if (day < 1 || day > Math.floor((new Date(trip.endDate).getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1) {
         throw new Error("Invalid day for the trip");
     }
 

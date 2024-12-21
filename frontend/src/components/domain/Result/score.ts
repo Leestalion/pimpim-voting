@@ -12,6 +12,7 @@ export const calculateVotedUsers = (
       userId: user.id,
       username: user.username,
       score: 0,
+      day: 0,
     };
   });
 
@@ -40,8 +41,9 @@ export const calculateVotedUsers = (
     sortedVotes.forEach((vote, index) => {
       const scoreContribution = normalizedWeight[index] * maxScorePerVoter;
 
-      if (votedUsers[vote.userId]) {
+      if (votedUsers[vote.userId] && vote.day >= 1) {
         votedUsers[vote.userId].score += scoreContribution;
+        votedUsers[vote.userId].day = vote.day;
       }
     });
   });

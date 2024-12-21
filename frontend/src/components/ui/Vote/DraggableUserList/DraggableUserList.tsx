@@ -51,7 +51,6 @@ export const DraggableUserList = ({
       updatedUsers.splice(newIndex, 0, movedUser);
 
       setOrderedUsers(updatedUsers);
-      console.log("Updated Ordered Users:", updatedUsers);
     }
   };
 

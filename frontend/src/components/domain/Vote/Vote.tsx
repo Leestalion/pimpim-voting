@@ -15,6 +15,11 @@ export const Vote = () => {
   const [voteSubmitted, setVoteSubmitted] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
 
+  const isVotingAllowed = () => {
+    const now = new Date();
+    return !(now.getHours() === 23);
+  };
+
   const handleVotingUserSelection = async (user: User) => {
     setSelectedUsers([]);
     setVotingUser(user);
@@ -63,12 +68,15 @@ export const Vote = () => {
         </button>
       </div>
       {!voteSubmitted ? (
+        isVotingAllowed() ? (        
         <VotingActions
           votingUser={votingUser}
           setSummaryVotes={setSummaryVotes}
           selectedUsers={selectedUsers}
           setSelectedUsers={setSelectedUsers}
-        />
+        />) : ( 
+          <p>Le vote est fermé entre 23h et minuit, Veuillez revenir plus tard!</p>
+        )
       ) : (
         <VoteSummary
           votes={votingUserVotes}

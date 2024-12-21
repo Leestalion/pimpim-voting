@@ -7,6 +7,8 @@ export const getTripById = (id: string) => {
       id: "id",
       name: "name",
       securityCode: "security_code",
+      startDate: "start_date",
+      endDate: "end_date",
     })
     .where({ id })
     .first();
@@ -16,7 +18,6 @@ export const getAllTrips = () => {
   return db("trips").select({
     id: "id",
     name: "name",
-    securityCode: "security_code",
   });
 };
 

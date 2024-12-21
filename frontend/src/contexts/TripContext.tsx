@@ -3,9 +3,11 @@ import { createContext } from "react";
 
 export interface TripContextType {
     trip: Trip;
+    currentDay: number;
     users: User[];
     userVotes: Vote[],
     votes: Vote[],
+    fetchCurrentDay: () => Promise<number>;
     vote: (votes: {userId: string, voterId: string, rank: number}[]) => Promise<Vote[]>;
     fetchUserVotes: (user: User) => Promise<Vote[]>;
     fetchVotes: () => Promise<Vote[]>;
@@ -22,10 +24,14 @@ export const TripContext = createContext<TripContextType>({
         id: "",
         name: "",
         securityCode: "",
+        startDate: "",
+        endDate: "",
     },
+    currentDay: 0,
     users: [],
     userVotes: [],
     votes: [],
+    fetchCurrentDay: async () => 0,
     fetchUserVotes: async () => [],
     fetchVotes: async () => [],
     vote: async () => [],

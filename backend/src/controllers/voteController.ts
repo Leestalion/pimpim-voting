@@ -4,6 +4,12 @@ import { tripService } from "../services";
 
 export const vote = async (req: Request, res: Response, next: NextFunction) => {
     try {
+
+        const currentHour = new Date().getHours();
+        if(currentHour === 23) {
+            throw new Error("Voting is closed between 23:00 and 00:00");
+        }
+
         const trip = await tripService.getTripById(req.body.votes[0].tripId);
 
         if (!trip) {
@@ -11,6 +17,7 @@ export const vote = async (req: Request, res: Response, next: NextFunction) => {
         }
 
         const day = await tripService.calculateCurrentDay(trip.id);
+
         const votes_data = req.body.votes.map((vote: any) => ({
             ...vote,
             day: day

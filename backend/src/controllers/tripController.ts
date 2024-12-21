@@ -51,3 +51,12 @@ export const deleteTrip = async (req: Request, res: Response, next: NextFunction
         next(err);
     }
 };
+
+export const getCurrentDayByTripId = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const currentDay = await tripService.calculateCurrentDay(req.params.tripId);
+        res.json(currentDay);
+    } catch (err) {
+        next(err);
+    }
+};

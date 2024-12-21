@@ -2,6 +2,8 @@ export interface Trip {
     id: string;
     name: string;
     securityCode: string;
+    startDate: string;
+    endDate: string;
 }
 
 export interface User {
@@ -10,6 +12,7 @@ export interface User {
 }
 
 export interface Vote {
+    day: number;
     tripId: string;
     userId: string;
     voterId: string;
@@ -20,6 +23,7 @@ export interface VotedUser {
     userId: string;
     username: string;
     score: number;
+    day: number;
 }
 
 export interface Results {

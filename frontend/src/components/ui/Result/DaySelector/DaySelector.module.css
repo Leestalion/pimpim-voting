@@ -1,0 +1,36 @@
+.daySelector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  background-color: #222222;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
+
+.arrowButton {
+  background-color: #222222;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  flex: 1 1 33%;
+}
+
+.dayNumber {
+  padding: 0.5rem 0;
+  flex: 1 1 20%;
+  text-align: center;
+}
+
+.disabled {
+  cursor: not-allowed;
+  color: darkred;
+}
+
+.disabled:hover {
+  background-color: #222222;
+}
+
+.currentDay {
+  border: 1px solid indianred;
+  border-radius: 8px;
+}
