@@ -25,6 +25,20 @@ body {
   margin: 0;
 }
 
+.developerIcon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.developerIcon:hover {
+  opacity: 0.8;
+  scale: 1.1;
+}
+
 .mainContent {
   display: flex;
   flex-direction: column;
@@ -65,6 +79,10 @@ input[type="date"] {
   -moz-appearance: none; /* For Firefox */
   cursor: pointer; /* Makes the entire input clickable */
   padding: 10px;
+}
+
+input {
+  color-scheme: dark;
 }
 
 /* Button styling */

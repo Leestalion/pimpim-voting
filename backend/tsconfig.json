@@ -10,5 +10,5 @@
     "rootDir": "./src",
     "allowJs": true
   },
-  "include": ["src/**/*.ts", "src/knexfile.js", "src/migrations/20241208205102_init_schema.js"]
+  "include": ["src/**/*.ts"]
 }
