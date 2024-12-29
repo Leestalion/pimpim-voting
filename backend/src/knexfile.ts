@@ -23,6 +23,44 @@ if (environment === 'development') {
 
 export type Environment = 'development' | 'production';
 
+const retry = async <T>(fn: () => Promise<T>, retries: number, delay: number): Promise<T> => {
+  let attempts = 0;
+  while (attempts < retries) {
+    try {
+      return await fn();
+    } catch (error) {
+      attempts++;
+      console.error(`Connection attempt ${attempts} failed. Retrying in ${delay}ms...`);
+      if (attempts === retries) {
+        console.error('All retry attempts failed.');
+        throw error;
+      }
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+  throw new Error('Retries exceeded.');
+};
+
+const productionConfig = {
+  client: 'pg',
+  connection: async () => {
+    return await retry(
+      async () => ({
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false },
+      }),
+      5, // Number of retries
+      3000 // Delay between retries in ms
+    );
+  },
+  migrations: {
+    directory: './migrations',
+  },
+  seeds: {
+    directory: './seeds',
+  },
+};
+
 export default {
   development: {
     client: 'pg',
@@ -40,17 +78,5 @@ export default {
       directory: './seeds',
     },
   },
-  production: {
-    client: 'pg',
-    connection: {
-      connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false }
-    },
-    migrations: {
-      directory: './migrations',
-    },
-    seeds: {
-      directory: './seeds',
-    },
-  },
+  production: productionConfig,
 } as Record<Environment, Knex.Config>;
