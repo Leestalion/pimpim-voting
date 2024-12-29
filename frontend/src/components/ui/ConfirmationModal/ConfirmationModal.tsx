@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./ConfirmationModal.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "../Button";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -29,7 +30,8 @@ export const ConfirmationModal = ({
     };
   }, [isOpen]);
 
-  const handleConfirm = () => {
+  const handleConfirm = (e: React.FormEvent) => {
+    e.preventDefault();
     onConfirm(secretCode);
     setSecretCode("");
   };
@@ -41,25 +43,27 @@ export const ConfirmationModal = ({
       <div className={styles.modalContent}>
         <h2>Confirmer</h2>
         <p>Veuillez entrer le code secret pour confirmer :</p>
-        <input
-          type="text"
-          value={secretCode}
-          onChange={(e) => setSecretCode(e.target.value)}
-          placeholder="Code Secret"
-          autoFocus
-        />
-        <div className={styles.modalButtons}>
-          <button className={styles.modalButton} onClick={onClose}>
-            <FontAwesomeIcon icon={faXmark} className={styles.iconRed} />
-          </button>
-          <button
-            className={styles.modalButton}
-            onClick={handleConfirm}
-            disabled={!secretCode}
-          >
-            <FontAwesomeIcon icon={faCheck} className={styles.iconGreen} />
-          </button>
-        </div>
+        <form onSubmit={handleConfirm}>
+          <input
+            type="text"
+            value={secretCode}
+            onChange={(e) => setSecretCode(e.target.value)}
+            placeholder="Code Secret"
+            autoFocus
+          />
+          <div className={styles.modalButtons}>
+            <Button type="button" className={styles.modalButton} onClick={onClose}>
+              <FontAwesomeIcon icon={faXmark} className={styles.iconRed} />
+            </Button>
+            <Button
+              type="submit"
+              className={styles.modalButton}
+              disabled={!secretCode}
+            >
+              <FontAwesomeIcon icon={faCheck} className={styles.iconGreen} />
+            </Button>
+          </div>
+        </form>
       </div>
     </div>
   );

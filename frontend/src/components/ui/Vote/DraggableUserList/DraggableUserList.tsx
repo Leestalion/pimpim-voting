@@ -19,6 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCrown, faGripVertical } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./DraggableUserList.module.css";
+import { Button } from "src/components/ui";
 
 interface DraggableUserListProps {
   users: User[];
@@ -94,9 +95,9 @@ export const DraggableUserList = ({
         </SortableContext>
       </DndContext>
       <div className={styles.buttonContainer}>
-        <button onClick={() => onSubmitVote(orderedUsers)} disabled={orderedUsers.length === 0} className={styles.submitButton}>
+        <Button onClick={() => onSubmitVote(orderedUsers)} disabled={orderedUsers.length === 0} className={styles.submitButton}>
           <FontAwesomeIcon icon={faCheck} />
-        </button>
+        </Button>
       </div>
     </div>
   );

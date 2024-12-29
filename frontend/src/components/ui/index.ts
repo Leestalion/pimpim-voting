@@ -6,3 +6,4 @@ export * from "./EditableField";
 export * from "./UserManagement";
 export * from "./Vote";
 export * from "./Result";
+export * from "./Button";

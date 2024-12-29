@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import styles from "./EditableField.module.css";
+import { Button } from "../Button";
 
 interface EditableFieldProps {
   label: string;
@@ -48,7 +49,7 @@ export const EditableField = ({
           <FontAwesomeIcon className={`${styles.icon} ${styles.iconRed}`} icon={faXmark} onClick={onCancel} />
         </div>
       ) : (
-        <button onClick={onEdit} className={`${styles.userButton} ${titleClass}`}>{initialValue}</button>
+        <Button onClick={onEdit} className={`${styles.userButton} ${titleClass}`}>{initialValue}</Button>
       )}
     </>
   );

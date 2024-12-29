@@ -3,6 +3,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { EditableField } from "../EditableField";
 import { ConfirmationModal } from "src/components/ui/ConfirmationModal";
 import styles from "./UserManagementUI.module.css";
+import { Button } from "../Button";
 
 interface UserManagementUIProps {
   users: Array<{ id: string; username: string }>;
@@ -59,7 +60,7 @@ export const UserManagementUI = ({
           value={securityCode}
           onChange={(e) => setSecurityCode(e.target.value)}
         />
-        <button type="submit">Ajouter un utilisateur</button>
+        <Button type="submit">Ajouter un utilisateur</Button>
       </form>
 
       <ul className={styles.userList}>

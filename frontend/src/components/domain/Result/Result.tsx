@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { useTrip } from "src/hooks";
-import { ResultCard } from "src/components/ui";
+import { Button, ResultCard } from "src/components/ui";
 import styles from "./Result.module.css";
 import { VotedUser } from "src/types";
 import { calculateVotedUsers, calculateVotedUsersForDay } from "./score";
@@ -58,12 +58,12 @@ export const Result = () => {
 
   return (
     <div>
-      <button
+      <Button
         className={styles.goToVoteButton}
         onClick={() => navigate(`/trip/${trip.id}/vote`)}
       >
         Voter
-      </button>
+      </Button>
 
       <CountDown />
 

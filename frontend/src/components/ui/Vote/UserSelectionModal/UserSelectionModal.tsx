@@ -3,6 +3,7 @@ import { User } from "src/types";
 import styles from "./UserSelectionModal.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "src/components/ui";
 
 interface UserSelectionModalProps {
   isOpen: boolean;
@@ -62,16 +63,16 @@ export const UserSelectionModal = ({
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
         <h2>Choisissez pour qui voter</h2>
-        <button
+        <Button
           className={styles.selectAllButton}
           onClick={handleSelectAll}
         >
           <FontAwesomeIcon icon={faCheck} className={styles.iconGreen} />
-        </button>
+        </Button>
         <ul className={styles.userList}>
           {users.map((user) => (
             <li key={user.id} className={styles.userItem}>
-              <button
+              <Button
                 className={`${styles.userButton} ${
                   selected.some((u) => u.id === user.id)
                     ? styles.selected
@@ -90,17 +91,17 @@ export const UserSelectionModal = ({
                   }`}
                 />
                 {user.username}
-              </button>
+              </Button>
             </li>
           ))}
         </ul>
         <div className={styles.modalButtons}>
-          <button className={styles.modalButton} onClick={onClose}>
+          <Button className={styles.modalButton} onClick={onClose}>
             <FontAwesomeIcon icon={faXmark} className={styles.iconRed} />
-          </button>
-          <button className={styles.modalButton} onClick={handleValidate}>
+          </Button>
+          <Button className={styles.modalButton} onClick={handleValidate}>
             <FontAwesomeIcon icon={faCheck} className={styles.iconGreen} />
-          </button>
+          </Button>
         </div>
       </div>
     </div>

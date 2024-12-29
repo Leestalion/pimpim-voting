@@ -1,12 +1,15 @@
 import { Outlet } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock, faLockOpen } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+import { ToastContainer } from "react-toastify";
+
 import "./App.css";
 import styles from "./App.module.css";
-import { TripsProvider } from "src/contexts";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock, faUnlock } from "@fortawesome/free-solid-svg-icons";
 import { useDeveloper } from "src/hooks";
+import { TripsProvider } from "src/contexts";
 import { ConfirmationModal } from "src/components/ui";
-import { useState } from "react";
 
 export function App() {
   const { isDeveloperMode, toggleDeveloperMode } = useDeveloper();
@@ -24,6 +27,7 @@ export function App() {
 
   return (
     <TripsProvider>
+      <ToastContainer position="top-right" autoClose={5000} />
       <ConfirmationModal
         onConfirm={handleOnConfirm}
         isOpen={openModal}
@@ -34,7 +38,7 @@ export function App() {
           <h1>Vote Pimpim</h1>
           {isDeveloperMode ? (
             <FontAwesomeIcon
-              icon={faUnlock}
+              icon={faLockOpen}
               className={styles.developerIcon}
               onClick={() => setOpenModal(true)}
             />

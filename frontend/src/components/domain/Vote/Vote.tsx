@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTrip } from "src/hooks";
 import { User, Vote as VoteType } from "src/types";
-import { VotingUserSelector } from "src/components/ui";
+import { Button, VotingUserSelector } from "src/components/ui";
 import { VotingActions } from "./VotingActions";
 import styles from "./Vote.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -60,12 +60,12 @@ export const Vote = () => {
     <div>
       <div className={styles.votingUser}>
         <h3>Utilisateur : {votingUser.username}</h3>
-        <button
+        <Button
           onClick={() => setVotingUser(null)}
           className={styles.switchUserButton}
         >
           <FontAwesomeIcon icon={faArrowRightArrowLeft} />
-        </button>
+        </Button>
       </div>
       {!voteSubmitted ? (
         isVotingAllowed() ? (        

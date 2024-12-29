@@ -5,6 +5,7 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "src/components/ui";
 
 interface DaySelectorProps {
   currentDay: number;
@@ -37,13 +38,13 @@ export const DaySelector = ({
 
   return (
     <div className={styles.daySelector}>
-      <button
+      <Button
         onClick={handlePreviousDay}
         className={`${styles.arrowButton} ${day === 1 ? styles.disabled : ""}`}
         disabled={day === 1}
       >
         <FontAwesomeIcon icon={faChevronLeft} />
-      </button>
+      </Button>
       <span
         className={`${styles.dayNumber} ${
           day === currentDay ? styles.currentDay : ""
@@ -51,7 +52,7 @@ export const DaySelector = ({
       >
         Jour {day}
       </span>
-      <button
+      <Button
         onClick={handleNextDay}
         className={`${styles.arrowButton} ${
           day === duration ? styles.disabled : ""
@@ -59,7 +60,7 @@ export const DaySelector = ({
         disabled={day === duration}
       >
         <FontAwesomeIcon icon={faChevronRight} />
-      </button>
+      </Button>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { DraggableUserList } from "../DraggableUserList";
 import styles from "./VotingActionsUI.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "src/components/ui";
 
 interface VotingActionsUIProps {
   users: User[];
@@ -34,7 +35,7 @@ export const VotingActionsUI: React.FC<VotingActionsUIProps> = ({
       <div className={styles.header}>
         <h1 className={styles.voteForLabel}>Voter pour :</h1>
         <div className={styles.buttonGroup}>
-          <button
+          <Button
             onClick={onSelectAllUsers}
             className={`${styles.allUsersButton} ${
               isAllUsersSelected ? "" : styles.notChosen
@@ -47,8 +48,8 @@ export const VotingActionsUI: React.FC<VotingActionsUIProps> = ({
                 isAllUsersSelected ? styles.selectedIcon : styles.unselectedIcon
               }
             />
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={onSelectSomeUsers}
             className={`${styles.chooseUsersButton} ${
               !isAllUsersSelected ? "" : styles.notChosen
@@ -63,7 +64,7 @@ export const VotingActionsUI: React.FC<VotingActionsUIProps> = ({
                   : styles.unselectedIcon
               }
             />
-          </button>
+          </Button>
         </div>
       </div>
       <UserSelectionModal

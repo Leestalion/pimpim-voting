@@ -3,6 +3,7 @@ import styles from "./VoteSummary.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { useTrip } from "src/hooks";
+import { Button } from "src/components/ui";
 
 interface VoteSummaryProps {
   votes: Vote[];
@@ -41,9 +42,9 @@ export const VoteSummary = ({ votes, onModifyVote }: VoteSummaryProps) => {
             </li>
           ))}
       </ul>
-      <button onClick={onModifyVote}>
+      <Button onClick={onModifyVote}>
         Modifier <FontAwesomeIcon icon={faEdit} className={styles.editButton} />
-      </button>
+      </Button>
     </div>
   );
 };

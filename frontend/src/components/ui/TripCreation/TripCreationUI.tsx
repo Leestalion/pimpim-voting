@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./TripCreation.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "../Button";
 
 interface TripCreationUIProps {
   name: string;
@@ -30,9 +31,9 @@ export const TripCreationUI: React.FC<TripCreationUIProps> = ({
 }) => {
   return (
     <div>
-      <button type="button" onClick={onBack} className={styles.backButton}>
+      <Button type="button" onClick={onBack} className={styles.backButton}>
         <FontAwesomeIcon icon={faArrowLeft} className={styles.arrowIcon} />
-      </button>
+      </Button>
       <form onSubmit={onSubmit} className={styles.form}>
         <input
           type="text"
@@ -69,9 +70,9 @@ export const TripCreationUI: React.FC<TripCreationUIProps> = ({
           required
         />
         </label>
-        <button type="submit" className={styles.button}>
+        <Button type="submit" className={styles.button}>
           Créer un voyage
-        </button>
+        </Button>
       </form>
     </div>
   );

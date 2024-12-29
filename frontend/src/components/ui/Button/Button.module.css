@@ -1,0 +1,24 @@
+/* Button styling */
+.button {
+  text-transform: uppercase;
+  color: white;
+  background-color: #444; /* Dark background for the button */
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%; /* Ensure the button takes full width */
+  font-size: 16px; /* Adjust font size for consistency */
+  text-align: center; /* Align text in the button */
+  box-sizing: border-box; /* Ensure padding is included in width calculation */
+}
+
+.button:hover {
+  background-color: #333; /* Slightly darker on hover */
+}
+
+.button:focus {
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* Optional: blue outline on focus */
+}

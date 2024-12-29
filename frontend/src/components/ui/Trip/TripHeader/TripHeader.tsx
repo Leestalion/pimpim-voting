@@ -1,5 +1,5 @@
 // src/components/ui/TripHeader.tsx
-import { EditableField } from "src/components/ui";
+import { Button, EditableField } from "src/components/ui";
 import styles from "./TripHeader.module.css";
 import { useState } from "react";
 
@@ -19,9 +19,9 @@ export const TripHeader = ({
 
   return (
     <header className={styles.tripHeader}>
-      <button className={styles.hamburger} onClick={onToggleMenu}>
+      <Button className={styles.hamburger} onClick={onToggleMenu}>
         &#9776;
-      </button>
+      </Button>
       <div className={styles.tripName}>
         <EditableField
           label="Nom du voyage"
