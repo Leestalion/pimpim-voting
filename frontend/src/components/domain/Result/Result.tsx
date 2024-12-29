@@ -70,7 +70,7 @@ export const Result = () => {
   const renderResults = () => (
     <>
       <ResultCard
-        title={`Résultats du jour ${currentDay}`}
+        title={'Résultats par jour'}
         votedUsers={votedUsersDay}
         currentDay={currentDay}
         duration={duration}

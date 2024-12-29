@@ -2,7 +2,7 @@ import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { VotedUser } from "src/types";
 import styles from "./ResultCard.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faChevronUp, faCrown } from "@fortawesome/free-solid-svg-icons";
 import { DaySelector } from "../DaySelector";
 
 interface ResultCardProps {
@@ -52,14 +52,23 @@ export const ResultCard = ({ votedUsers, title, currentDay, duration, setResultD
       <ul
         ref={listRef}
         className={styles.userList}
-        style={{ maxHeight: showAll ? `${listHeight}px` : "220px" }}
+        style={{ maxHeight: showAll ? `${listHeight}px` : "130px" }}
       >
-        {sortedVotedUsers.map((votedUser) => {
+        {sortedVotedUsers.map((votedUser, index) => {
           return (
             <li key={votedUser.userId} className={styles.userItem}>
-              <p>{votedUser.username}</p>
-              <p>{Math.round(votedUser.score)}</p>
-            </li>
+            {index === 0 && (
+              <FontAwesomeIcon icon={faCrown} className={styles.goldCrown} />
+            )}
+            {index === 1 && (
+              <FontAwesomeIcon icon={faCrown} className={styles.silverCrown} />
+            )}
+            {index === 2 && (
+              <FontAwesomeIcon icon={faCrown} className={styles.copperCrown} />
+            )}
+            <p>{votedUser.username}</p>
+            <p>{Math.round(votedUser.score)}</p>
+          </li>
           );
         })}
       </ul>
