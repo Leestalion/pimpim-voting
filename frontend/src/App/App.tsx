@@ -26,7 +26,7 @@ export function App() {
 
   return (
     <TripsProvider>
-      <ToastContainer position="top-right" autoClose={5000} />
+      <ToastContainer theme="dark" position="top-right" autoClose={5000} />
       <ConfirmationModal
         onConfirm={handleOnConfirm}
         isOpen={openModal}

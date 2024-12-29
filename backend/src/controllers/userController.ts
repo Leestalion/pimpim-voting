@@ -27,7 +27,7 @@ export const addUserInTrip = async (req: Request, res: Response, next: NextFunct
         await tripService.checkSecurityCode(user.tripId, securityCode);
 
         await userService.addUserInTrip(user);
-        res.status(201).send("User added to trip");
+        res.status(201).send("Utilisateur ajouté au voyage");
     } catch (err) {
         next(err);
     }
@@ -37,7 +37,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
     try {
         const user = req.body;
         await userService.updateUser(user);
-        res.status(200).send("User updated");
+        res.status(200).send("Utilisateur mis à jour");
     } catch (err) {
         next(err);
     }
@@ -51,7 +51,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
         await tripService.checkSecurityCode(user.tripId, securityCode);
 
         await userService.deleteUser(user);
-        res.status(200).send("User deleted");
+        res.status(200).send("Utilisateur supprimé");
     } catch (err) {
         next(err);
     }

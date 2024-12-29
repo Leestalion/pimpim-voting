@@ -18,6 +18,11 @@ export const TripHeader = ({
   const [isEditing, setIsEditing] = useState(false);
   const { isDeveloperMode } = useDeveloper();
 
+  const handleEditTrip = (newTripName: string) => {
+    onEditTripName(newTripName);
+    setIsEditing(false);
+  };
+
   return (
     <header className={styles.tripHeader}>
       <Button className={styles.hamburger} onClick={onToggleMenu}>
@@ -31,7 +36,7 @@ export const TripHeader = ({
             initialValue={tripName}
             isEditing={isEditing}
             onEdit={() => setIsEditing(true)}
-            onSave={() => onEditTripName(tripName)}
+            onSave={handleEditTrip}
             onCancel={() => setIsEditing(false)}
             isTitle={true}
           />

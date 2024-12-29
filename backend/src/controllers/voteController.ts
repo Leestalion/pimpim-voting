@@ -7,13 +7,13 @@ export const vote = async (req: Request, res: Response, next: NextFunction) => {
 
         const currentHour = new Date().getHours();
         if(currentHour === 23) {
-            throw new Error("Voting is closed between 23:00 and 00:00");
+            throw new Error("Le vote est fermé entre 23h et minuit");
         }
 
         const trip = await tripService.getTripById(req.body.votes[0].tripId);
 
         if (!trip) {
-            throw new Error("Trip not found");
+            throw new Error("Voyage non trouvé");
         }
 
         const day = await tripService.calculateCurrentDay(trip.id);

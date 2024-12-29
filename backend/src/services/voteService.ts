@@ -7,7 +7,7 @@ export const vote = async (votesData: Vote[]) => {
     await voteModel.deleteVotesByUserId(tripId, voterId);
     const votes = await Promise.all(votesData.map(vote => voteModel.vote(vote)));
     if (!votes) {
-        throw new Error("Problem happened while voting");
+        throw new Error("Un problème est survenu lors du vote");
     }
     const flattenVotes = votes.flat();
     return flattenVotes;
@@ -16,7 +16,7 @@ export const vote = async (votesData: Vote[]) => {
 export const getVotesByTripId = async (tripId: string) => {
     const votes = await voteModel.getVotesByTripId(tripId);
     if (!votes) {
-        throw new Error("Problem happened while getting votes");
+        throw new Error("Un problème est survenu lors de la récupération des votes");
     }
     return votes;
 };
@@ -24,7 +24,7 @@ export const getVotesByTripId = async (tripId: string) => {
 export const getVotesByUserId = async (tripId: string, userId: string) => {
     const votes = await voteModel.getVotesByUserId(tripId, userId);
     if (!votes) {
-        throw new Error("Problem happened while getting votes");
+        throw new Error("Un problème est survenu lors de la récupération des votes");
     }
     return votes;
 };

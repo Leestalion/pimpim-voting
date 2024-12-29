@@ -44,7 +44,6 @@ export const createTrip = async (
     const createdTrip = await tripService.createTrip(value);
     res.status(201).json(createdTrip);
   } catch (err) {
-		console.log("haha");
     next(err);
   }
 };
@@ -61,7 +60,7 @@ export const editTrip = async (
       return next(new ValidationError(error.message));
     }
     await tripService.editTrip(value);
-    res.status(200).send("Trip updated");
+    res.status(200).send("Voyage mis à jour");
   } catch (err) {
     next(err);
   }
@@ -80,7 +79,7 @@ export const deleteTrip = async (
 
     await tripService.deleteTrip(req.body.trip);
 
-    res.status(200).send("Trip deleted");
+    res.status(200).send("Voyage supprimé");
   } catch (err) {
     next(err);
   }
@@ -92,7 +91,8 @@ export const getCurrentDayByTripId = async (
   next: NextFunction
 ) => {
   try {
-    const currentDay = await tripService.calculateCurrentDay(req.params.tripId);
+    const skipValidation = true;
+    const currentDay = await tripService.calculateCurrentDay(req.params.tripId, skipValidation);
     res.json(currentDay);
   } catch (err) {
     next(err);

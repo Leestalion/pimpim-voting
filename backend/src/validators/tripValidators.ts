@@ -34,6 +34,10 @@ const editTripSchema = Joi.object({
     id: Joi.string().required(),
     name: Joi.string().required(),
     securityCode: Joi.string().required(),
+    startDate: Joi.string()
+    .isoDate(),
+    endDate: Joi.string()
+    .isoDate()
 });
 
 export const validateCreateTrip = (data: Trip) => createTripSchema.validate(data);

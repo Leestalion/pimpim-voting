@@ -1,5 +1,6 @@
 import { Trip, User, Vote } from "src/types";
 import { axiosInstance } from "./axiosInstance";
+import { toast } from "react-toastify";
 
 export const fetchTrips = async (): Promise<Trip[]> => {
   const response = await axiosInstance.get("/trips");
@@ -25,6 +26,7 @@ export const createTrip = async (tripData: {
 export const editTripService = async (trip: Trip): Promise<void> => {
   const response = await axiosInstance.put("/trip", trip);
   if (response.status !== 200) {
+    toast.error("Échec de la mise à jour du voyage");
     throw new Error(`Failed to edit trip: ${response.statusText}`);
   }
 };
@@ -71,6 +73,7 @@ export const submitVote = async (votes: Vote[]): Promise<Vote[]> => {
       day: vote.vote_day,
     })
   );
+  toast.success("Vote soumis avec succès");
   return newVotes
 };
 

@@ -22,6 +22,9 @@ axiosInstance.interceptors.response.use(
       } else if (status === 403) {
         console.error("Interdit - vous n'avez pas la permission.");
         toast.error("Interdit: " + data.error);
+      } else if (status === 422) {
+        console.error("Données invalides.");
+        toast.error("Données invalides: " + data.error);
       } else if (status === 500) {
         console.error("Erreur du serveur - Réessayez plus tard.");
         toast.error("Erreur du serveur: " + data.message);

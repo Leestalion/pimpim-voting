@@ -4,7 +4,7 @@ import { User } from "../types";
 export const getUserById = async (id: string) => {
     const user = await userModel.getUserById(id);
     if (!user) {
-        throw new Error("User not found");
+        throw new Error("Utilisateur non trouvé");
     }
     return user;
 };
@@ -12,7 +12,7 @@ export const getUserById = async (id: string) => {
 export const getAllUsersInTrip = async (tripId: string) => {
     const users = await userModel.getAllUsersInTrip(tripId);
     if (!users) {
-        throw new Error("No users found in trip");
+        throw new Error("Aucun utilisateur trouvé");
     }
     return users;
 };

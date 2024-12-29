@@ -15,11 +15,13 @@ export const Trip = () => {
   const [tempTripName, setTempTripName] = useState(trip.name);
 
   const handleEditTrip = (newTripName: string) => {
+    console.log(newTripName);
     setTempTripName(newTripName);
     setIsTripEditModalOpen(true);
   };
 
   const handleConfirmEdit = (secretCode: string) => {
+    console.log(tempTripName);
     editTrip(tempTripName, secretCode);
     setIsTripEditModalOpen(false);
   };

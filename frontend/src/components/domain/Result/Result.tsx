@@ -41,70 +41,74 @@ export const Result = () => {
     if (trip.startDate && trip.endDate) {
       const start = new Date(trip.startDate);
       const end = new Date(trip.endDate);
-      const duration = Math.ceil(
+      const calculatedDuration = Math.ceil(
         (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
       );
-      setDuration(duration);
+      setDuration(calculatedDuration);
     }
   }, [trip.startDate, trip.endDate]);
 
   useEffect(() => {
     if (votes.length > 0 && users.length > 0 && currentDay) {
-      const computedVotedUsers = calculateVotedUsers(votes, users);
-      setVotedUsers(computedVotedUsers);
-
-      const computedVotedUsersDay = calculateVotedUsersForDay(
-        votes,
-        users,
-        currentDay
-      );
-      setVotedUsersDay(computedVotedUsersDay);
+      setVotedUsers(calculateVotedUsers(votes, users));
+      setVotedUsersDay(calculateVotedUsersForDay(votes, users, currentDay));
     }
-    setIsReady(currentDay !== undefined);
+    setIsReady(!!currentDay);
   }, [votes, users, currentDay]);
 
-  if (!isReady) {
-    // Show loading spinner or placeholder until data is ready
-    return <LoadingComponent />;
-  }
+  const renderVoteButton = () => (
+    <div className={styles.buttonContainer}>
+      <Button
+        className={styles.goToVoteButton}
+        onClick={() => navigate(`/trip/${trip.id}/vote`)}
+      >
+        Voter
+      </Button>
+    </div>
+  );
 
-  if (isReady && votedUsers.length === 0) {
-    return (
-      <>
-        <div className={styles.buttonContainer}>
-          <Button
-            className={styles.goToVoteButton}
-            onClick={() => navigate(`/trip/${trip.id}/vote`)}
-          >
-            Voter
-          </Button>
-        </div>
-        <div className={styles.emptyResult}>No votes yet</div>
-      </>
-    )
-  }
-
-  return (
-    <div>
-      <div className={styles.buttonContainer}>
-        <Button
-          className={styles.goToVoteButton}
-          onClick={() => navigate(`/trip/${trip.id}/vote`)}
-        >
-          Voter
-        </Button>
-      </div>
-
-      <CountDown />
-
+  const renderResults = () => (
+    <>
       <ResultCard
         votedUsers={votedUsersDay}
         currentDay={currentDay}
         duration={duration}
         setResultDay={handleSetResultDay}
       />
-
       <ResultCard votedUsers={votedUsers} />
+    </>
+  );
+
+  if (!isReady || currentDay === 0 || duration === 0) {
+    return <LoadingComponent />;
+  }
+
+  if (currentDay > duration) {
+    return (
+      <div>
+        <div className={styles.emptyResult}>
+          Le voyage est terminé, merci d'avoir voté !
+        </div>
+        {renderResults()}
+      </div>
+    );
+  }
+
+  if (votedUsers.length === 0) {
+    return (
+      <div>
+        {renderVoteButton()}
+        <CountDown />
+        <div className={styles.emptyResult}>Pas encore de vote</div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      {renderVoteButton()}
+      <CountDown />
+      {renderResults()}
     </div>
   );
 };
