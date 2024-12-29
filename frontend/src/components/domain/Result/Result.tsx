@@ -70,12 +70,13 @@ export const Result = () => {
   const renderResults = () => (
     <>
       <ResultCard
+        title={`Résultats du jour ${currentDay}`}
         votedUsers={votedUsersDay}
         currentDay={currentDay}
         duration={duration}
         setResultDay={handleSetResultDay}
       />
-      <ResultCard votedUsers={votedUsers} />
+      <ResultCard title={'Résultats globaux'} votedUsers={votedUsers} />
     </>
   );
 
