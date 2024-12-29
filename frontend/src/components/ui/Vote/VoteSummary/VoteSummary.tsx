@@ -1,16 +1,17 @@
 import { Vote } from "src/types";
 import styles from "./VoteSummary.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCrown, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faCrown, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useTrip } from "src/hooks";
 import { Button } from "src/components/ui";
 
 interface VoteSummaryProps {
   votes: Vote[];
   onModifyVote: () => void;
+  onDeleteVote: () => void;
 }
 
-export const VoteSummary = ({ votes, onModifyVote }: VoteSummaryProps) => {
+export const VoteSummary = ({ votes, onModifyVote, onDeleteVote }: VoteSummaryProps) => {
   const { users } = useTrip();
 
   return (
@@ -42,8 +43,11 @@ export const VoteSummary = ({ votes, onModifyVote }: VoteSummaryProps) => {
             </li>
           ))}
       </ul>
-      <Button onClick={onModifyVote}>
-        Modifier <FontAwesomeIcon icon={faEdit} className={styles.editButton} />
+      <Button onClick={onModifyVote} className={styles.button}>
+        Modifier <FontAwesomeIcon icon={faEdit} className={styles.buttonIcon} />
+      </Button>
+      <Button onClick={onDeleteVote} className={styles.button}>
+        Supprimer <FontAwesomeIcon icon={faTrash} className={styles.buttonIcon} />
       </Button>
     </div>
   );

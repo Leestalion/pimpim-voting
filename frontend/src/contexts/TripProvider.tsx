@@ -14,6 +14,7 @@ import {
   fetchTripById,
   deleteUserService,
   editUserService,
+  deleteUserVotesService,
 } from "src/services";
 import LoadingComponent from "src/components/ui/Loading/LoadingComponent";
 
@@ -57,7 +58,7 @@ export const TripProvider = ({ children }: PropsWithChildren) => {
 
       setLoading(false);
     };
-    
+
     loadTrip();
   }, [tripId]);
 
@@ -144,6 +145,15 @@ export const TripProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const deleteUserVotes = async (userId: string) => {
+    if (!trip) throw new Error("Voyage non chargé");
+    try {
+      await deleteUserVotesService(trip.id, userId);
+    } catch (error) {
+      console.error("Erreur lors de la suppression des votes:", error);
+    }
+  };
+
   const fetchCurrentDay = useCallback(async (): Promise<number> => {
     if (!trip) throw new Error("Voyage non chargé");
     try {
@@ -203,6 +213,7 @@ export const TripProvider = ({ children }: PropsWithChildren) => {
         fetchCurrentDay,
         fetchVotes,
         fetchUserVotes,
+        deleteUserVotes,
         editTrip,
         deleteTrip,
         users,

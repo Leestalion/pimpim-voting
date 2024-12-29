@@ -124,6 +124,13 @@ export const fetchVotesService = async (tripId: string): Promise<Vote[]> => {
   return votes;
 };
 
+export const deleteUserVotesService = async (tripId: string, userId: string): Promise<void> => {
+  const response = await axiosInstance.delete(`/trip/${tripId}/vote/${userId}`);
+  if (response.status !== 200) {
+    throw new Error(`Echec de la suppression des votes : ${response.statusText}`);
+  }
+};
+
 export const fetchUsersInTrip = async (tripId: string): Promise<User[]> => {
   const response = await axiosInstance.get(`/trip/${tripId}/users`);
   return response.data;

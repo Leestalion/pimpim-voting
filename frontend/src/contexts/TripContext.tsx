@@ -11,6 +11,7 @@ export interface TripContextType {
     vote: (votes: {userId: string, voterId: string, rank: number}[]) => Promise<Vote[]>;
     fetchUserVotes: (user: User) => Promise<Vote[]>;
     fetchVotes: () => Promise<Vote[]>;
+    deleteUserVotes: (userId: string) => Promise<void>;
     editTrip: (tripName: string, securityCode: string) => void;
     deleteTrip: (securityCode: string) => void;
     fetchUsers: () => void;
@@ -34,6 +35,7 @@ export const TripContext = createContext<TripContextType>({
     fetchCurrentDay: async () => 0,
     fetchUserVotes: async () => [],
     fetchVotes: async () => [],
+    deleteUserVotes: async () => {},
     vote: async () => [],
     editTrip: () => {},
     deleteTrip: () => {},

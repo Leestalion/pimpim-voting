@@ -26,6 +26,10 @@
     padding-right: 0.5rem;
 }
 
-.editButton {
+.buttonIcon {
     padding: 0 1rem;
+}
+
+.button {
+    margin-bottom: 0.5rem;
 }

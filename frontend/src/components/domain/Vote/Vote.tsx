@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { useTrip } from "src/hooks";
 import { User, Vote as VoteType } from "src/types";
-import { Button, VotingUserSelector } from "src/components/ui";
+import { Button, ConfirmationModal, VotingUserSelector } from "src/components/ui";
 import { VotingActions } from "./VotingActions";
 import styles from "./Vote.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { VoteSummary } from "src/components/ui/Vote/VoteSummary";
+import { toast } from "react-toastify";
 
 export const Vote = () => {
-  const { users, fetchUsers, fetchUserVotes } = useTrip();
+  const { users, fetchUsers, fetchUserVotes, deleteUserVotes } = useTrip();
   const [votingUser, setVotingUser] = useState<User | null>(null);
   const [votingUserVotes, setVotingUserVotes] = useState<VoteType[]>([]);
   const [voteSubmitted, setVoteSubmitted] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const isVotingAllowed = () => {
     const now = new Date();
@@ -41,6 +43,21 @@ export const Vote = () => {
     setSelectedUsers(previousVotedUsers);
   };
 
+  const handleOnDeleteVote = () => {
+    setIsDeleteModalOpen(true);
+  }
+
+  const deleteVotes = () => {
+    if (!votingUser) {
+      toast.error("Impossible de supprimer les votes : utilisateur non trouvé");
+      return;
+    }
+    setVotingUserVotes([]);
+    setVoteSubmitted(false);
+    deleteUserVotes(votingUser.id);
+    setIsDeleteModalOpen(false);
+  };
+
   const setSummaryVotes = (votes: VoteType[]) => {
     setVotingUserVotes(votes);
     setVoteSubmitted(true);
@@ -62,6 +79,12 @@ export const Vote = () => {
 
   return (
     <div>
+      <ConfirmationModal 
+        isOpen={isDeleteModalOpen} 
+        onClose={() => setIsDeleteModalOpen(false)} 
+        onConfirm={deleteVotes}
+        noPassword={true}
+      />
       <div className={styles.votingUser}>
         <h3>Utilisateur : {votingUser.username}</h3>
         <Button
@@ -85,6 +108,7 @@ export const Vote = () => {
         <VoteSummary
           votes={votingUserVotes}
           onModifyVote={handleOnModifyVote}
+          onDeleteVote={handleOnDeleteVote}
         />
       )}
     </div>

@@ -9,4 +9,6 @@ router.get('/trip/:tripId/votes', voteController.getVotesByTripId);
 
 router.get('/trip/:tripId/vote/:userId', voteController.getVotesByUserId);
 
+router.delete('/trip/:tripId/vote/:userId', voteController.deleteVotesByUserId);
+
 export default router;
