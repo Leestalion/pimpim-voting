@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTrip } from "src/hooks";
 import { User, Vote as VoteType } from "src/types";
 import { Button, ConfirmationModal, VotingUserSelector } from "src/components/ui";
@@ -64,7 +64,10 @@ export const Vote = () => {
   };
 
   if (users.length === 0) {
-    return <div className={styles.emptyResult}>Pas encore d'utilisateurs</div>;;
+    useEffect(() => {
+      fetchUsers();
+    }, [fetchUsers]);
+    return <div className={styles.emptyResult}>Pas encore d'utilisateurs</div>;
   }
   
   if (!votingUser) {
