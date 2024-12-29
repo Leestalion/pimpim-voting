@@ -35,7 +35,7 @@ export const TripProvider = ({ children }: PropsWithChildren) => {
   const [error, setError] = useState<string | null>(null);
   const [userVotes, setUserVotes] = useState<Vote[]>([]);
   const [votes, setVotes] = useState<Vote[]>([]);
-  const [currentDay, setCurrentDay] = useState<number>(1);
+  const [currentDay, setCurrentDay] = useState<number>(0);
 
   useEffect(() => {
     const loadTrip = async () => {

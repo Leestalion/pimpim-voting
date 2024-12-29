@@ -13,7 +13,7 @@ interface ResultCardProps {
   setResultDay?: (day: number) => void;
 }
 
-export const ResultCard = ({ votedUsers, title, currentDay, duration, setResultDay }: ResultCardProps) => {
+export const ResultCard = ({ votedUsers, title, currentDay = 0, duration, setResultDay }: ResultCardProps) => {
   const [showAll, setShowAll] = useState(false);
   const [sortedVotedUsers, setSortedVotedUsers] = useState<VotedUser[]>([]);
 
@@ -46,7 +46,7 @@ export const ResultCard = ({ votedUsers, title, currentDay, duration, setResultD
       <div className={styles.cardTitle}>
         <h2>{title}</h2>
       </div>
-      {currentDay !== undefined && setResultDay && (
+      {currentDay > 0 && setResultDay && (
         <DaySelector currentDay={currentDay} setResultDay={setResultDay} duration={duration || 0} />
       )}
       <ul
