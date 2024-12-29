@@ -8,12 +8,14 @@ interface ConfirmationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: (secretCode: string) => void;
+  noPassword?: boolean;
 }
 
 export const ConfirmationModal = ({
   isOpen,
   onClose,
   onConfirm,
+  noPassword,
 }: ConfirmationModalProps) => {
   const [secretCode, setSecretCode] = useState("");
 
@@ -42,28 +44,54 @@ export const ConfirmationModal = ({
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
         <h2>Confirmer</h2>
-        <p>Veuillez entrer le code secret pour confirmer :</p>
-        <form onSubmit={handleConfirm}>
-          <input
-            type="text"
-            value={secretCode}
-            onChange={(e) => setSecretCode(e.target.value)}
-            placeholder="Code Secret"
-            autoFocus
-          />
+        {!noPassword ? (
+          <>
+            <p>Veuillez entrer le code secret pour confirmer :</p>
+            <form onSubmit={handleConfirm}>
+              <input
+                type="text"
+                value={secretCode}
+                onChange={(e) => setSecretCode(e.target.value)}
+                placeholder="Code Secret"
+                autoFocus
+              />
+              <div className={styles.modalButtons}>
+                <Button
+                  type="button"
+                  className={styles.modalButton}
+                  onClick={onClose}
+                >
+                  <FontAwesomeIcon icon={faXmark} className={styles.iconRed} />
+                </Button>
+                <Button
+                  type="submit"
+                  className={styles.modalButton}
+                  disabled={!secretCode}
+                >
+                  <FontAwesomeIcon
+                    icon={faCheck}
+                    className={styles.iconGreen}
+                  />
+                </Button>
+              </div>
+            </form>
+          </>
+        ) : (
           <div className={styles.modalButtons}>
-            <Button type="button" className={styles.modalButton} onClick={onClose}>
+            <Button
+              className={styles.modalButton}
+              onClick={onClose}
+            >
               <FontAwesomeIcon icon={faXmark} className={styles.iconRed} />
             </Button>
             <Button
-              type="submit"
+              onClick={() => onConfirm("")}
               className={styles.modalButton}
-              disabled={!secretCode}
             >
               <FontAwesomeIcon icon={faCheck} className={styles.iconGreen} />
             </Button>
           </div>
-        </form>
+        )}
       </div>
     </div>
   );

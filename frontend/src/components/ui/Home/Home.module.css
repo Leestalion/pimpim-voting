@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: #121212;
+  background-color: #555555;
   border-radius: 8px;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .tripCard {
-  background-color: #1e1e1e;
+  background-color: #333333;
   border-radius: 8px;
   padding: 30px; /* Increased padding */
   display: flex;
@@ -35,7 +35,7 @@
 }
 
 .tripCard:hover {
-  background-color: #333333;
+  background-color: #444444;
   transform: translateY(-4px);
 }
 

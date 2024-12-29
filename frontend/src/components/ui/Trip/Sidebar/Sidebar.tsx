@@ -9,6 +9,7 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Sidebar.module.css";
+import { useDeveloper } from "src/hooks";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -21,8 +22,15 @@ export const Sidebar = ({ isOpen, onClose, onDelete }: SidebarProps) => {
     { to: "/", icon: faHome, label: "Accueil" },
     { to: "results", icon: faChartBar, label: "Résultats" },
     { to: "vote", icon: faVoteYea, label: "Vote" },
-    { to: "users", icon: faUsers, label: "Gestion des utilisateurs" },
   ];
+
+  const { isDeveloperMode } = useDeveloper();
+
+  if (isDeveloperMode) {
+    menuItems.push({ to: "users", icon: faUsers, label: "Gestion des utilisateurs" },);
+  }
+
+
 
   return (
     <nav className={`${styles.sidebar} ${isOpen ? styles.sidebarOpen : ""}`}>
@@ -35,12 +43,14 @@ export const Sidebar = ({ isOpen, onClose, onDelete }: SidebarProps) => {
             </Link>
           </li>
         ))}
-        <li className={styles.sidebarItem}>
-          <div onClick={onDelete} className={styles.sidebarLink}>
-            <FontAwesomeIcon icon={faTrash} className={styles.icon} />
-            Supprimer le voyage
-          </div>
-        </li>
+        {isDeveloperMode && (
+          <li className={styles.sidebarItem}>
+            <div onClick={onDelete} className={styles.sidebarLink}>
+              <FontAwesomeIcon icon={faTrash} className={styles.icon} />
+              Supprimer le voyage
+            </div>
+          </li>
+        )}
       </ul>
     </nav>
   );

@@ -1,11 +1,25 @@
 .goToVoteButton {
-    margin: 1rem;;
-    width: 20rem;
+  margin: 1rem;
+  font-weight: bold;
+  font-size: 1.2rem;
 }
 
-@media screen and (max-width: 600px) {
-    .goToVoteButton {
-        width: 100%;
-        margin: 1rem 0;
-    }
+.buttonContainer {
+  background-color: #333333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.emptyResult {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  margin: 1rem 0;
+  font-size: 1.3rem;
+  background-color: #333333;
+  border-radius: 8px;
 }

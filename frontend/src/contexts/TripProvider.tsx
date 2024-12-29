@@ -15,6 +15,7 @@ import {
   deleteUserService,
   editUserService,
 } from "src/services";
+import LoadingComponent from "src/components/ui/Loading/LoadingComponent";
 
 export const TripProvider = ({ children }: PropsWithChildren) => {
   const emptyTrip: Trip = { id: "", name: "", securityCode: "", startDate: "", endDate: "" };
@@ -188,7 +189,7 @@ export const TripProvider = ({ children }: PropsWithChildren) => {
     }
   }, [trip]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingComponent />;
   if (error) return <div>Error: {error}</div>;
 
   return (

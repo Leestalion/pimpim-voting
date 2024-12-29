@@ -46,6 +46,10 @@ export const Vote = () => {
     setVoteSubmitted(true);
   };
 
+  if (users.length === 0) {
+    return <div className={styles.emptyResult}>Pas encore d'utilisateurs</div>;;
+  }
+  
   if (!votingUser) {
     return (
       <VotingUserSelector

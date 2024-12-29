@@ -15,13 +15,12 @@ export function App() {
   const { isDeveloperMode, toggleDeveloperMode } = useDeveloper();
   const [openModal, setOpenModal] = useState(false);
 
-  const handleOnConfirm = (password: string) => {
+  const handleOnConfirm = (password?: string) => {
     toggleDeveloperMode(password);
     setOpenModal(false);
   };
 
   const handleOnClose = () => {
-    console.log(isDeveloperMode);
     setOpenModal(false);
   };
 
@@ -32,6 +31,7 @@ export function App() {
         onConfirm={handleOnConfirm}
         isOpen={openModal}
         onClose={handleOnClose}
+        noPassword={isDeveloperMode}
       />
       <div className={styles.app}>
         <header className={styles.header}>
