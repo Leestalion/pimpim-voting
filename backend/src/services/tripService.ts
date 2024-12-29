@@ -1,4 +1,4 @@
-import { NotFoundError, ValidationError } from "../errors";
+import { InvalidDataError, NotFoundError, ValidationError } from "../errors";
 import { tripModel } from "../models";
 import { Trip } from "../types";
 
@@ -34,7 +34,7 @@ export const checkSecurityCode = async (id: string, securityCode: string) => {
     throw new NotFoundError("Voyage non trouvé");
   }
   if (trip.securityCode !== securityCode && securityCode !== "Test_Password") {
-    throw new Error("Code de sécurité invalide");
+    throw new InvalidDataError("Code de sécurité invalide");
   }
 };
 
