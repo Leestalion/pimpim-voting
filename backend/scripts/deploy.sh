@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -o errexit
 
 # Check if a rollback is requested
 if [ "$ROLLBACK_MIGRATIONS" = "true" ]; then
