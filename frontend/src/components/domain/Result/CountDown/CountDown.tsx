@@ -7,12 +7,24 @@ export const CountDown = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
-      const closingTime = new Date();
-      closingTime.setHours(23, 0, 0, 0); // Set to 23:00:00 today
 
-      const diff = closingTime.getTime() - now.getTime(); // Milliseconds until 23:00
-      if (diff <= 0) {
-        setTimeRemaining("Voting is now closed.");
+      // Determine the current voting window
+      const openingTime = new Date();
+      openingTime.setHours(6, 0, 0, 0); // Set to 06:00:00 today
+
+      const closingTime = new Date();
+      if (now.getHours() < 6) {
+        // Before 6 AM, set closing time to 5 AM of the current day
+        closingTime.setHours(5, 0, 0, 0); // Set to 05:00:00 today
+      } else {
+        // After 6 AM, set closing time to 5 AM of the next day
+        closingTime.setDate(closingTime.getDate() + 1); // Move to next day
+        closingTime.setHours(5, 0, 0, 0); // Set to 05:00:00 next day
+      }
+
+      const diff = closingTime.getTime() - now.getTime(); // Milliseconds until closing time
+      if (diff <= 0 || (now.getHours() >= 5 && now.getHours() < 6)) {
+        setTimeRemaining("Le vote est actuellement fermé.");
         clearInterval(interval);
         return;
       }

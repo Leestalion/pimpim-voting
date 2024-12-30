@@ -19,8 +19,12 @@ export const Vote = () => {
 
   const isVotingAllowed = () => {
     const now = new Date();
-    return !(now.getHours() === 23);
+    const currentHour = now.getHours();
+  
+    // Voting is allowed between 6 AM (06:00) and 5 AM (05:59) the next day
+    return currentHour >= 6 || currentHour < 5;
   };
+  
 
   const handleVotingUserSelection = async (user: User) => {
     setSelectedUsers([]);
@@ -105,7 +109,7 @@ export const Vote = () => {
           selectedUsers={selectedUsers}
           setSelectedUsers={setSelectedUsers}
         />) : ( 
-          <p>Le vote est fermé entre 23h et minuit, Veuillez revenir plus tard!</p>
+            <p>Le vote est fermé entre 5h et 6h, Veuillez revenir plus tard!</p>
         )
       ) : (
         <VoteSummary

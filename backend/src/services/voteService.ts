@@ -1,10 +1,12 @@
+import { tripService } from ".";
 import { voteModel } from "../models";
 import { Vote } from "../types";
 
 export const vote = async (votesData: Vote[]) => {
   const tripId = votesData[0].tripId;
   const voterId = votesData[0].voterId;
-  await voteModel.deleteVotesByUserId(tripId, voterId);
+  const voteDay = votesData[0].day;
+  await voteModel.deleteVotesByUserId(tripId, voterId, voteDay);
   const votes = await Promise.all(
     votesData.map((vote) => voteModel.vote(vote))
   );
@@ -35,7 +37,7 @@ export const getVotesByUserId = async (tripId: string, userId: string) => {
   return votes;
 };
 
-export const deleteVotesByUserId = async (tripId: string, userId: string) => {
-  await voteModel.deleteVotesByUserId(tripId, userId);
+export const deleteVotesByUserId = async (tripId: string, userId: string, voteDay: number) => {
+  await voteModel.deleteVotesByUserId(tripId, userId, voteDay);
   return { message: "Votes supprimés" };
 };

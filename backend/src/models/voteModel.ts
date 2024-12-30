@@ -24,8 +24,8 @@ export const getVotesByUserId = (tripId: string, userId: string) => {
     .select("*");
 };
 
-export const deleteVotesByUserId = (tripId: string, userId: string) => {
+export const deleteVotesByUserId = (tripId: string, userId: string, voteDay: number) => {
   return db("votes")
-    .where({ voter_id: userId, trip_id: tripId })
+    .where({ voter_id: userId, trip_id: tripId, vote_day: voteDay })
     .delete();
 };

@@ -38,7 +38,10 @@ export const checkSecurityCode = async (id: string, securityCode: string) => {
   }
 };
 
-export const calculateCurrentDay = async (tripId: string, skipValidation: boolean = false) => {
+export const calculateCurrentDay = async (
+  tripId: string,
+  skipValidation: boolean = false
+) => {
   const trip = await tripModel.getTripById(tripId);
 
   if (!trip) {
@@ -47,6 +50,12 @@ export const calculateCurrentDay = async (tripId: string, skipValidation: boolea
 
   const startDate = new Date(trip.startDate);
   const currentDate = new Date();
+
+  // Adjust currentDate to reflect the voting logic (day ends at 5 AM)
+  if (currentDate.getHours() < 5) {
+    currentDate.setDate(currentDate.getDate() - 1); // Treat it as the previous day
+  }
+
   const diffInMs = currentDate.getTime() - startDate.getTime();
   const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 
@@ -61,3 +70,4 @@ export const calculateCurrentDay = async (tripId: string, skipValidation: boolea
 
   return day;
 };
+
