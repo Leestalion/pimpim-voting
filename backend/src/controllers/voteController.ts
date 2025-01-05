@@ -56,7 +56,9 @@ export const getVotesByUserId = async (
 ) => {
   try {
     const { tripId, userId } = req.params;
-    const votes = await voteService.getVotesByUserId(tripId, userId);
+    const skipValidation = true;
+    const voteDay = await tripService.calculateCurrentDay(tripId, skipValidation);
+    const votes = await voteService.getVotesByUserId(tripId, userId, voteDay);
     res.json(votes);
   } catch (err) {
     next(err);

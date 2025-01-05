@@ -18,9 +18,9 @@ export const getVotesByTripId = (tripId: string) => {
     .select("*");
 };
 
-export const getVotesByUserId = (tripId: string, userId: string) => {
+export const getVotesByUserId = (tripId: string, userId: string, voteDay: number) => {
   return db("votes")
-    .where({ voter_id: userId, trip_id: tripId })
+    .where({ voter_id: userId, trip_id: tripId, vote_day: voteDay })
     .select("*");
 };
 

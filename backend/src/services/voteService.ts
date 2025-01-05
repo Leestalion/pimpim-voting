@@ -27,8 +27,8 @@ export const getVotesByTripId = async (tripId: string) => {
   return votes;
 };
 
-export const getVotesByUserId = async (tripId: string, userId: string) => {
-  const votes = await voteModel.getVotesByUserId(tripId, userId);
+export const getVotesByUserId = async (tripId: string, userId: string, voteDay: number) => {
+  const votes = await voteModel.getVotesByUserId(tripId, userId, voteDay);
   if (!votes) {
     throw new Error(
       "Un problème est survenu lors de la récupération des votes"
