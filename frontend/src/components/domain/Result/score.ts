@@ -18,15 +18,16 @@ export const calculateVotedUsers = (
 
   const maxScorePerVoter = 10; // Fixed total score contribution per voter
 
-  // Group votes by voterId
-  const votesByVoter = votes.reduce((acc, vote) => {
-    acc[vote.voterId] = acc[vote.voterId] || [];
-    acc[vote.voterId].push(vote);
+  // Group votes by voterId and day
+  const votesByVoterAndDay = votes.reduce((acc, vote) => {
+    const key = `${vote.voterId}-${vote.day}`;
+    acc[key] = acc[key] || [];
+    acc[key].push(vote);
     return acc;
   }, {} as Record<string, Vote[]>);
 
-  // Process each voter's votes
-  Object.values(votesByVoter).forEach((userVotes) => {
+  // Process each voter's votes for each day
+  Object.values(votesByVoterAndDay).forEach((userVotes) => {
     const sortedVotes = userVotes.sort((a, b) => a.rank - b.rank);
     const totalVotes = sortedVotes.length;
 
@@ -41,7 +42,7 @@ export const calculateVotedUsers = (
     sortedVotes.forEach((vote, index) => {
       const scoreContribution = normalizedWeight[index] * maxScorePerVoter;
 
-      if (votedUsers[vote.userId] && vote.day >= 1) {
+      if (votedUsers[vote.userId]) {
         votedUsers[vote.userId].score += scoreContribution;
       }
     });
